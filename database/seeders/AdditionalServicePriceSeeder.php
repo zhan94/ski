@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class CardSeeder extends Seeder
+class AdditionalServicePriceSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,24 +15,20 @@ class CardSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('cards')->insert([
+        DB::table('additional_service_prices')->insert([
             [
                 'service_id' => 1,
-                'name' => 'Алеко',
+                'day' => '5',
+                'price' => '360',
                 'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
-            ],
-            [
-                'service_id' => 1,
-                'name' => 'Ветровала',
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
             ],
             [
                 'service_id' => 2,
-                'name' => 'Мачирски',
+                'day' => '5',
+                'price' => '440',
                 'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
             ]
         ]);
     }
