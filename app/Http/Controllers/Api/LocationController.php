@@ -13,9 +13,9 @@ class LocationController extends Controller
 
     public function index(): JsonResponse
     {
-        $services = Location::all();
+        $locations = Location::all();
 
-        return response()->json($services, 200);
+        return response()->json($locations, 200);
     }
 
     /**

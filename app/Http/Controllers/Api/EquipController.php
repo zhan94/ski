@@ -4,18 +4,16 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Equip;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class EquipController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(): JsonResponse
     {
-        //
+        $equips = Equip::with('prices')->get();
+
+        return response()->json($equips, 200);
     }
 
     /**
