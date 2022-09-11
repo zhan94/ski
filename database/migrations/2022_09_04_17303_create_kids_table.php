@@ -20,7 +20,10 @@ return new class extends Migration
             $table->string('lastname');
             $table->string('birth_date');
             $table->boolean('active');
-            $table->text('note');
+            $table->text('note')->nullable();
+            $table->string('parent_name');
+            $table->string('parent_email');
+            $table->string('parent_phone_number');
             $table->timestamps();
         });
     }

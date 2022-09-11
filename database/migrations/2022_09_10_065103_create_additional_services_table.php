@@ -20,8 +20,7 @@ return new class extends Migration
             $table->string('drop_down_place');
             $table->string('from_date');
             $table->string('to_date');
-            $table->string('price');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
