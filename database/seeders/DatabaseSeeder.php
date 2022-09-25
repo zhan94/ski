@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
         $this->call(KidSeeder::class);
         $this->call(AdditionalServicePriceSeeder::class);
         $this->call(AdditionalServiceSeeder::class);
-        $this->call(NavigationSeeder::class);
+        $this->call(NavBarSeeder::class);
         User::factory()->create();
     }
 }
