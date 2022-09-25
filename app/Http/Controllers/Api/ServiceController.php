@@ -10,11 +10,9 @@ use Illuminate\Http\JsonResponse;
 class ServiceController extends Controller
 {
 
-    public function index(): JsonResponse
+    public function index(): array
     {
-        $services = Service::all();
-
-        return response()->json($services, 200);
+        return Service::all()->toArray();
     }
 
     /**

@@ -3,84 +3,47 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreLocationRequest;
+use App\Http\Requests\UpdateLocationRequest;
 use App\Models\Location;
 use App\Models\Service;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class LocationController extends Controller
 {
 
-    public function index(): JsonResponse
+    public function index(): array
     {
-        $locations = Location::all();
-
-        return response()->json($locations, 200);
+        return Service::with('locations')->get()->toArray();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function store(StoreLocationRequest $request): JsonResponse
     {
-        //
+        $input = $request->all();
+        Location::create($input);
+
+        return response()->json(['success' => 'Успешно дбавяне на местоположение']);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function show(Location $location): JsonResponse
     {
-        //
+        $location = $location->load('service');
+
+        return response()->json($location);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Location  $location
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Location $location)
+    public function update(UpdateLocationRequest $request, Location $location): JsonResponse
     {
-        //
+        $input = $request->all();
+        $location->update($input);
+
+        return response()->json(['success'=> 'Успешна редакция на местоположение']);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Location  $location
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Location $location)
+    public function destroy(Location $location): JsonResponse
     {
-        //
-    }
+        $location->delete();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Location  $location
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Location $location)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Location  $location
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Location $location)
-    {
-        //
+        return response()->json(['success' => 'Успешно изтриване на местоположение']);
     }
 }
