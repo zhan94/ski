@@ -18,47 +18,47 @@ class NavBarSeeder extends Seeder
         DB::table('navbars')->insert([
             [
                 'name' => 'Услуги',
-                'route' => 'services',
+                'route' => '/services',
                 'ordering' => 1,
             ],
             [
                 'name' => 'Въведи дете',
-                'route' => 'services',
+                'route' => '/kids/add',
                 'ordering' => 2,
             ],
             [
                 'name' => 'Потребители',
-                'route' => 'users',
+                'route' => '/users',
                 'ordering' => 3,
             ],
             [
                 'name' => 'Местоположения',
-                'route' => 'locations',
+                'route' => '/locations',
                 'ordering' => 4,
             ],
             [
                 'name' => 'Справки',
-                'route' => 'reports',
+                'route' => '/reports',
                 'ordering' => 5,
             ],
             [
                 'name' => 'Карти',
-                'route' => 'cards',
+                'route' => '/cards',
                 'ordering' => 6,
             ],
             [
                 'name' => 'Екипировки',
-                'route' => 'equips',
+                'route' => '/equips',
                 'ordering' => 7,
             ],
             [
                 'name' => 'База данни',
-                'route' => 'kids',
+                'route' => '/kids',
                 'ordering' => 8,
             ],
             [
                 'name' => 'Допълнителни Занятия',
-                'route' => 'additional_service',
+                'route' => '/additional_service',
                 'ordering' => 9,
             ]
         ]);

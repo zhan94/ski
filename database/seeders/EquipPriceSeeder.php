@@ -18,21 +18,21 @@ class EquipPriceSeeder extends Seeder
         DB::table('equip_prices')->insert([
             [
                 'equip_id' => 1,
-                'day' => '1',
+                'days' => '1',
                 'price' => '60',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ],
             [
                 'equip_id' => 1,
-                'day' => '2',
+                'days' => '2',
                 'price' => '110',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ],
             [
                 'equip_id' => 1,
-                'day' => '3',
+                'days' => '3',
                 'price' => '155',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
