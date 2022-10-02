@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('equip_prices', function (Blueprint $table) {
             $table->id();
             $table->foreignId('equip_id')->constrained('equips');
-            $table->text('day');
+            $table->text('days');
             $table->text('price');
             $table->timestamps();
         });
