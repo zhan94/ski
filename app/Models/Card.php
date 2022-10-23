@@ -11,6 +11,8 @@ class Card extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['service_id', 'name'];
+
     public function service(): belongsTo
     {
         return $this->belongsTo(Service::class);
