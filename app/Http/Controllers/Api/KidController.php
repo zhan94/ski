@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\KidRequest;
 use App\Models\Kid;
 use Illuminate\Http\JsonResponse;
+use Carbon\Carbon;
 
 class KidController extends Controller
 {
@@ -13,6 +14,24 @@ class KidController extends Controller
     {
         return Kid::all()->toArray();
     }
+
+    public function getKidsForAutocomplete(): JsonResponse
+    {
+        $data = array();
+        $kids = Kid::all([
+           'id', 'firstname', 'surname', 'lastname', 'birth_date'
+        ]);
+
+        foreach($kids as $kid){
+            $fullName = $kid['firstname'] . ' ' . $kid['surname']. ' ' . $kid['lastname'];
+            $date = Carbon::parse($kid['birth_date']);
+            $birth_date = $date->format('d-m-Y');
+
+            $data[] = $kid['id'] . ' ' .$fullName . ' (' . $birth_date . 'г.)';
+        }
+        return response()->json($data);
+    }
+
     public function store(KidRequest $request): JsonResponse
     {
         $input = $request->all();
@@ -24,7 +43,7 @@ class KidController extends Controller
 
     public function show(Kid $kid): JsonResponse
     {
-        $kid = $kid->load();
+        $kid = $kid->load('kid_services', 'payments', 'equip', 'card');
 
         return response()->json($kid);
     }

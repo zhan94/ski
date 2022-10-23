@@ -3,82 +3,71 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Card;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Models\Card;
+use App\Models\CardPrice;
+use Illuminate\Http\JsonResponse;
 
 class CardController extends Controller
 {
-    public function index(): JsonResponse
+    public function index(): array
     {
-        $cards = Card::with('prices')->get();
-
-        return response()->json($cards, 200);
+        return Card::with('prices', 'service')->get()->toArray();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function store(Request $request): JsonResponse
     {
-        //
+        $input = $request->all();
+        $items = json_decode($input['items']);
+
+        $equip = Card::create($input);
+        $card_id = $equip->id;
+
+        foreach ($items as $key => $item) {
+            $data[] = [
+                'card_id' => $card_id,
+                'days' => $item->days,
+                'price' => $item->prices
+            ];
+        }
+
+        CardPrice::insert($data);
+
+        return response()->json(['success' => 'Успешно добавяне на карта']);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function show(Card $card): JsonResponse
     {
-        //
+        $card = $card->load('prices', 'service');
+        return response()->json($card);
+    }
+    public function update(Request $request, Card $card): JsonResponse
+    {
+        $input = $request->all();
+
+        $items = json_decode($input['items']);
+        $card_id = $card->id;
+
+        foreach ($items as $key => $item) {
+            $data[] = [
+                'card_id' => $card_id,
+                'days' => $item->days,
+                'price' => $item->prices
+            ];
+        }
+
+        $card->update($input);
+        $card->prices()->delete();
+        CardPrice::insert($data);
+
+        return response()->json(['success'=> 'Успешна редакция на карта']);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Card  $card
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Card $card)
+    public function destroy(Card $card): JsonResponse
     {
-        //
-    }
+        $card->prices()->delete();
+        $card->delete();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Card  $card
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Card $card)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Card  $card
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Card $card)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Card  $card
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Card $card)
-    {
-        //
+        return response()->json(['success' => 'Успешно изтриване на карта']);
     }
 }
