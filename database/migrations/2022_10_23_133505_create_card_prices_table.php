@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('service_dates', function (Blueprint $table) {
+        Schema::create('card_prices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('service_id')->constrained('services');
-            $table->text("dates");
-            $table->integer('max');
+            $table->foreignId('card_id')->constrained('cards');
+            $table->text('days');
+            $table->text('price');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('service_dates');
+        Schema::dropIfExists('card_prices');
     }
 };

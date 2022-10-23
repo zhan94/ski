@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('additional_service_prices', function (Blueprint $table) {
+        Schema::create('services_data', function (Blueprint $table) {
             $table->id();
             $table->foreignId('service_id')->constrained('services');
-            $table->text('day');
-            $table->text('price');
+            $table->text("dates");
+            $table->integer('max');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('additional_service_prices');
+        Schema::dropIfExists('services_data');
     }
 };

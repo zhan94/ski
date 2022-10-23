@@ -13,12 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('card_prices', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('card_id')->constrained('cards');
-            $table->text('day');
-            $table->text('price');
-            $table->timestamps();
+        Schema::create('password_resets', function (Blueprint $table) {
+            $table->string('email')->index();
+            $table->string('token');
+            $table->timestamp('created_at')->nullable();
         });
     }
 
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('card_prices');
+        Schema::dropIfExists('password_reset');
     }
 };
