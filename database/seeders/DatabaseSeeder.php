@@ -16,15 +16,17 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(ServiceSeeder::class);
-        $this->call(ServiceDateSeeder::class);
+        $this->call(ServiceDataSeeder::class);
         $this->call(LocationSeeder::class);
+        $this->call(SkillSeeder::class);
         $this->call(EquipSeeder::class);
         $this->call(EquipPriceSeeder::class);
         $this->call(CardSeeder::class);
         $this->call(CardPriceSeeder::class);
         $this->call(KidSeeder::class);
-        $this->call(AdditionalServicePriceSeeder::class);
+        $this->call(KidServiceSeeder::class);
         $this->call(AdditionalServiceSeeder::class);
+        $this->call(AdditionalServicePriceSeeder::class);
         $this->call(NavBarSeeder::class);
         User::factory()->create();
     }

@@ -18,21 +18,21 @@ class CardPriceSeeder extends Seeder
         DB::table('card_prices')->insert([
             [
                 'card_id' => 1,
-                'day' => '20',
+                'days' => '20',
                 'price' => '80',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ],
             [
                 'card_id' => 1,
-                'day' => '30',
+                'days' => '30',
                 'price' => '120',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ],
             [
                 'card_id' => 1,
-                'day' => '40',
+                'days' => '40',
                 'price' => '150',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),

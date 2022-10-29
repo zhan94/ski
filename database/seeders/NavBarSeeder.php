@@ -23,7 +23,7 @@ class NavBarSeeder extends Seeder
             ],
             [
                 'name' => 'Въведи дете',
-                'route' => '/kids/add',
+                'route' => '/kid_services/add',
                 'ordering' => 2,
             ],
             [
