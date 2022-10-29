@@ -19,7 +19,7 @@ class Service extends Model
         'name', 'max'
     ];
 
-    public function dates(): HasMany
+    public function data(): HasMany
     {
         return $this->hasMany(ServicesData::class);
     }
@@ -27,10 +27,5 @@ class Service extends Model
     public function locations(): HasMany
     {
         return $this->hasMany(Location::class);
-    }
-
-    public function kids(): HasMany
-    {
-        return $this->hasMany(KidService::class);
     }
 }
