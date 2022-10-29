@@ -11,7 +11,7 @@ class ServiceController extends Controller
 {
     public function index(): array
     {
-        return Service::with('dates', 'kids')->get()->toArray();
+        return Service::with('data.kids')->get()->toArray();
     }
 
     /**
