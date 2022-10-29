@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('kid_services', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('service_id')
+            $table->foreignId('services_data_id')
                 ->constrained('services_data');
 
             $table->foreignId('kid_id')
