@@ -3,80 +3,37 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ServiceRequest;
 use App\Models\Service;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 class ServiceController extends Controller
 {
-    public function index(): array
+    public function index()
     {
         return Service::with('data.kids')->get()->toArray();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function store(ServiceRequest $request): JsonResponse
     {
-        //
+        $input = $request->all();
+        Service::create($input);
+
+        return response()->json(['success' => 'Успешно дбавяне на услуга']);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function update(ServiceRequest $request, Service $service): JsonResponse
     {
-        //
+        $input = $request->all();
+        $service->update($input);
+
+        return response()->json(['success'=> 'Успешна редакция на услуга']);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Service  $service
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Service $service)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Service  $service
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Service $service): Service
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Service  $service
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Service $service)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Service  $service
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Service $service)
     {
-        //
+        $service->delete();
+
+        return response()->json(['success' => 'Успешно изтриване на услуга']);
     }
 }
