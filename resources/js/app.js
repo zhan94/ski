@@ -1,15 +1,20 @@
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes React and other helpers. It's a great starting point while
- * building robust, powerful web applications using React + Laravel.
- */
+import {createApp} from 'vue';
 
-import './bootstrap';
+import App from './App.vue';
+import axios from 'axios';
+import router from './router';
+import VCalendar from 'v-calendar';
+import Modal from "vue-bs-modal";
+import SimpleTypeahead from 'vue3-simple-typeahead';
 
-/**
- * Next, we will create a fresh React component instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+const app = createApp(App);
+app.config.globalProperties.$axios = axios;
+app.use(router);
+app.use(VCalendar, {})
+app.use(Modal);
+app.use(SimpleTypeahead);
+app.mount('#app');
 
-import './components/Example';
+if (!window.Laravel.isLoggedin && !router.hasRoute('login')) {
+    //window.location.href = "/login";
+}
