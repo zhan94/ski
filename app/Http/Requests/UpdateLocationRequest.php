@@ -6,17 +6,19 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateLocationRequest extends FormRequest
 {
-
     public function authorize(): bool
     {
         return true;
     }
 
-
     public function rules(): array
     {
         return [
-
+            'service_id' => 'required',
+            'pick_up_place' => 'required',
+            'drop_down_place' => 'required',
+            'pick_up_time' => 'required',
+            'drop_down_time' => 'required',
         ];
     }
 }
