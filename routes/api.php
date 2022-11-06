@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\KidController;
 use App\Http\Controllers\Api\KidServiceController;
 use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Api\ServiceController;
+use App\Http\Controllers\Api\ServicesDataController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\NavbarController;
 use Illuminate\Http\Request;
@@ -38,4 +39,5 @@ Route::get('kids_autocomplete', [KidController::class, 'getKidsForAutocomplete']
 Route::apiResource('kid_services',KidServiceController::class);
 Route::apiResource('locations', LocationController::class);
 Route::apiResource('services', ServiceController::class);
+Route::apiResource('data', ServicesDataController::class);
 Route::apiResource('navbars', NavbarController::class);
