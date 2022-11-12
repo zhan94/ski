@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('surname');
             $table->string('lastname');
             $table->string('birth_date');
-            $table->integer('active');
+            $table->integer('active')->default(0);
             $table->text('note')->nullable();
             $table->string('parent_name');
             $table->string('parent_email');
