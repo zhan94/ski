@@ -16,6 +16,7 @@ import EditEquip from '../components/Equips/Edit.vue';
 import Kids from '../components/Kids/Index.vue';
 import AddKid from '../components/Kids/Add.vue';
 import EditKid from '../components/Kids/Edit.vue';
+import ViewKid from '../components/Kids/View.vue';
 import KidServices from '../components/KidServices/Index.vue';
 import AddKidService from '../components/KidServices/Add.vue';
 import EditKidService from '../components/KidServices/Edit.vue';
@@ -90,6 +91,11 @@ export const routes = [
         name: 'kids',
         path: '/kids',
         component: Kids
+    },
+    {
+        name: 'viewkid',
+        path: '/kids/view/:id',
+        component: ViewKid
     },
     {
         name: 'addekid',

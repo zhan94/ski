@@ -25,7 +25,7 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">Дати за услуга</label>
-                <m-date-picker v-model="dates" :multi="multi"></m-date-picker>
+                <Datepicker v-model="dates" modelAuto multiDates inline autoApply />
             </div>
 
         </form>
@@ -43,12 +43,12 @@
 </template>
 
 <script>
-import mDatePicker from 'vue-multi-date-picker'
+import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
 
 export default {
     data() {
         return {
-            multi: true,
             dates: [],
             services: [],
             service: '',
@@ -59,7 +59,7 @@ export default {
         }
     },
     components: {
-        mDatePicker
+        Datepicker
     },
     created() {
         this.$axios.get('/sanctum/csrf-cookie').then(response => {

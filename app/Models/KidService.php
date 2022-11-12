@@ -24,4 +24,9 @@ class KidService extends Model
     {
         return $this->hasOne(Location::class, 'id', 'location_id');
     }
+
+    public function service_data(): hasOne
+    {
+        return $this->hasOne(ServicesData::class, 'id', 'services_data_id');
+    }
 }
