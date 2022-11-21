@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class SkillSeeder extends Seeder
+class ServiceTypeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,15 +15,12 @@ class SkillSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('skills')->insert([
+        DB::table('service_types')->insert([
             [
-                'name' => 'Начинаещ',
+                'name' => 'Стандартна услуга',
             ],
             [
-                'name' => 'Каращ',
-            ],
-            [
-                'name' => 'Напреднал',
+                'name' => 'Допълнително занятие',
             ]
         ]);
     }

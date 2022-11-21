@@ -58,7 +58,7 @@ class NavBarSeeder extends Seeder
             ],
             [
                 'name' => 'Допълнителни Занятия',
-                'route' => '/additional_service',
+                'route' => '/additional_services',
                 'ordering' => 9,
             ]
         ]);
