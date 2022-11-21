@@ -29,12 +29,11 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "@vuepic/vue-datepicker": "^3.5.3",
         "v-calendar": "^3.0.0-alpha.8",
         "vue-bs-modal": "^0.7.9",
         "vue-loader": "^17.0.0",
-        "vue-multi-date-picker": "^1.0.1",
         "vue-router": "^4.0.13",
-        "vue3-datepicker": "^0.3.4",
         "vue3-simple-typeahead": "^1.0.11"
     }
 }
