@@ -25,6 +25,21 @@ class KidService extends Model
         return $this->hasOne(Location::class, 'id', 'location_id');
     }
 
+    public function skill(): hasOne
+    {
+        return $this->hasOne(Skill::class, 'id', 'skill_id');
+    }
+
+    public function equip(): hasOne
+    {
+        return $this->hasOne(Equip::class, 'id', 'equip_id');
+    }
+
+    public function card(): hasOne
+    {
+        return $this->hasOne(Card::class, 'id', 'card_id');
+    }
+
     public function service_data(): hasOne
     {
         return $this->hasOne(ServicesData::class, 'id', 'services_data_id');

@@ -11,10 +11,21 @@ class ServicesData extends Model
 {
     use HasFactory;
 
+    protected $fillable  = [
+        'service_id', 'dates', 'max'
+    ];
+
     public function kids(): HasMany
     {
         $select = ['id', 'services_data_id', 'kid_id', 'location_id', 'dates'];
         return $this->hasMany(KidService::class)->select($select);
+    }
+
+    public function kids_count()
+    {
+        return $this->hasMany(KidService::class)
+            ->selectRaw('services_data_id, count(*) as count_total')
+            ->groupBy('services_data_id');
     }
 
     public function service(): hasOne
