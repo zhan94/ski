@@ -31,11 +31,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('login', [UserController::class, 'login']);
 Route::post('logout', [UserController::class, 'logout'])->middleware('auth:sanctum');
 
+Route::get('services/get_locations/{service}', [ServiceController::class, 'getLocations']);
+Route::get('kid_services/add', [KidController::class, 'create']);
+Route::get('kid_services/add/search/{kid}/{service_type}', [KidController::class, 'search']);
+Route::get('kid_services/add/report/{service}/{date_from}/{date_to}', [KidServiceController::class, 'report']);
+
 Route::apiResource('additional_services', AdditionalServiceController::class);
 Route::apiResource('cards', CardController::class);
 Route::apiResource('equips', EquipController::class);
 Route::apiResource('kids', KidController::class);
-Route::get('kids_autocomplete', [KidController::class, 'getKidsForAutocomplete']);
 Route::apiResource('kid_services',KidServiceController::class);
 Route::apiResource('locations', LocationController::class);
 Route::apiResource('services', ServiceController::class);
