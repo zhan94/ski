@@ -16,11 +16,13 @@ class KidFactory extends Factory
      */
     public function definition()
     {
+        $date = fake()->dateTimeBetween('-14 years', '-4 years');
+
         return [
             'firstname' => fake()->firstName(),
             'surname' => fake()->firstName(),
             'lastname' => fake()->lastName(),
-            'birth_date' => fake()->dateTimeBetween($startDate = '-14 years', $endDate = '-4 years', $timezone = null),
+            'birth_date' => $date->format('d-m-Y'),
             'active' => 1,
             'note' => '',
             'parent_name' => fake()->name(),
