@@ -19,6 +19,9 @@ return new class extends Migration
             $table->foreignId('services_data_id')
                 ->constrained('services_data');
 
+            $table->foreignId('service_id')
+                ->constrained('services');
+
             $table->foreignId('kid_id')
                 ->constrained('kids')
                 ->onDelete('cascade');
@@ -38,7 +41,8 @@ return new class extends Migration
                 ->nullable()
                 ->constrained('cards');
 
-            $table->integer('service_type');
+            $table->foreignId('service_type_id')
+                ->constrained('service_types');
 
             $table->string("sum");
             $table->string("paid");
