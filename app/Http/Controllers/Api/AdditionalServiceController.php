@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\AdditionalService;
+use App\Models\AdditionalServicePrice;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -13,72 +14,63 @@ class AdditionalServiceController extends Controller
     {
         $services = AdditionalService::with('prices')->get();
 
-        return response()->json($services, 200);
+        return response()->json($services);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function store(Request $request): JsonResponse
     {
-        //
+        $data = [];
+        $input = $request->all();
+        $items = json_decode($input['items']);
+
+        $service = AdditionalService::create($input);
+        $service_id = $service->id;
+
+        foreach ($items as $item) {
+            $data[] = [
+                'service_id' => $service_id,
+                'day' => $item->days,
+                'price' => $item->prices
+            ];
+        }
+
+        AdditionalServicePrice::insert($data);
+
+        return response()->json(['success' => 'Успешно добавяне на допълнителни занятия']);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function show(AdditionalService $additionalService): JsonResponse
     {
-        //
+        $additionalService = $additionalService->load('prices');
+        return response()->json($additionalService);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\AdditionalService  $additionalService
-     * @return \Illuminate\Http\Response
-     */
-    public function show(AdditionalService $additionalService)
+    public function update(Request $request, AdditionalService $additionalService): JsonResponse
     {
-        //
+        $data = [];
+        $input = $request->all();
+        $items = json_decode($input['items']);
+        $service_id = $additionalService->id;
+
+        foreach ($items as $item) {
+            $data[] = [
+                'service_id' => $service_id,
+                'day' => $item->days,
+                'price' => $item->prices
+            ];
+        }
+
+        $additionalService->update($input);
+        AdditionalServicePrice::insert($data);
+
+        return response()->json(['success' => 'Успешна редакция на занятие']);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\AdditionalService  $additionalService
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(AdditionalService $additionalService)
+    public function destroy(AdditionalService $additionalService): JsonResponse
     {
-        //
-    }
+        $additionalService->prices()->delete();
+        $additionalService->delete();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\AdditionalService  $additionalService
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, AdditionalService $additionalService)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\AdditionalService  $additionalService
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(AdditionalService $additionalService)
-    {
-        //
+        return response()->json(['success' => 'Успешно изтриване на занятие']);
     }
 }

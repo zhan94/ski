@@ -46,4 +46,6 @@ class LocationController extends Controller
 
         return response()->json(['success' => 'Успешно изтриване на местоположение']);
     }
+
+
 }

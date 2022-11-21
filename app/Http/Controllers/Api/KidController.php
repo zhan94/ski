@@ -4,19 +4,24 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\KidRequest;
+use App\Models\AdditionalService;
 use App\Models\Kid;
+use App\Models\Service;
+use App\Models\ServiceType;
 use Illuminate\Http\JsonResponse;
-use Carbon\Carbon;
 
 class KidController extends Controller
 {
+
     public function index(): array
     {
         return Kid::all()->toArray();
     }
 
-    public function getKidsForAutocomplete(): JsonResponse
+    public function create(): JsonResponse
     {
+        $service_types = ServiceType::all();
+        $kids_data = array();
         $data = array();
         $kids = Kid::all([
            'id', 'firstname', 'surname', 'lastname', 'birth_date'
@@ -24,17 +29,19 @@ class KidController extends Controller
 
         foreach($kids as $kid){
             $fullName = $kid['firstname'] . ' ' . $kid['surname']. ' ' . $kid['lastname'];
-            $date = Carbon::parse($kid['birth_date']);
-            $birth_date = $date->format('d-m-Y');
-
-            $data[] = $kid['id'] . ' ' .$fullName . ' (' . $birth_date . 'г.)';
+            $kids_data[] = $kid['id'] . ' ' .$fullName . ' (' . $kid['birth_date'] . 'г.)';
         }
+
+        $data['kids'] = $kids_data;
+        $data['service_types'] = $service_types;
+
         return response()->json($data);
     }
 
     public function store(KidRequest $request): JsonResponse
     {
         $input = $request->all();
+        $input['birth_date'] = date('d-m-Y', strtotime($input['birth_date']));
 
         Kid::create($input);
 
@@ -43,7 +50,7 @@ class KidController extends Controller
 
     public function show(Kid $kid): JsonResponse
     {
-        $kid = $kid->load('kid_services', 'payments', 'equip', 'card');
+        $kid = $kid->load('kid_services.service_data.service');
 
         return response()->json($kid);
     }
@@ -61,5 +68,21 @@ class KidController extends Controller
         $kid->delete();
 
         return response()->json(['success' => 'Успешно изтриване на дете']);
+    }
+
+    public function search(Kid $kid, ServiceType $serviceType): JsonResponse
+    {
+        $data = array();
+        $kid = $kid->load('kid_services.service_data.service');
+        if ($serviceType->id === 1){
+            $services = Service::all();
+        } else {
+            $services = AdditionalService::all();
+        }
+
+        $data['kid'] = $kid;
+        $data['services'] = $services;
+
+        return response()->json($data);
     }
 }

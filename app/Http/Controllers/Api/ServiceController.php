@@ -9,9 +9,9 @@ use Illuminate\Http\JsonResponse;
 
 class ServiceController extends Controller
 {
-    public function index()
+    public function index(): array
     {
-        return Service::with('data.kids')->get()->toArray();
+        return Service::with('data.kids_count')->get()->toArray();
     }
 
     public function store(ServiceRequest $request): JsonResponse
@@ -27,7 +27,7 @@ class ServiceController extends Controller
         $input = $request->all();
         $service->update($input);
 
-        return response()->json(['success'=> 'Успешна редакция на услуга']);
+        return response()->json(['success' => 'Успешна редакция на услуга']);
     }
 
     public function destroy(Service $service)
@@ -35,5 +35,12 @@ class ServiceController extends Controller
         $service->delete();
 
         return response()->json(['success' => 'Успешно изтриване на услуга']);
+    }
+
+    public function getLocations(Service $service): JsonResponse
+    {
+        $locations = $service->load('locations');
+
+        return response()->json($locations->locations);
     }
 }
