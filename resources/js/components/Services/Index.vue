@@ -29,7 +29,11 @@
                     <tr v-for="data in service.data" :key="data.id">
                         <td>{{ data.dates }}</td>
                         <td class="text-center">
-                            <h4><span class="badge bg-secondary">{{ data.max }}</span></h4>
+                            <h4 v-for="totals in data.kids_count" :key="data.id"  >
+                                <span class="badge bg-secondary">
+                                    {{ totals.count_total }} / {{ data.max }}
+                                </span>
+                            </h4>
                         </td>
                         <td class="text-center">
                             <router-link :to="{name:'data', params: {id:data.id}}" class="btn btn-primary">
@@ -58,6 +62,8 @@ export default {
         return {
             services: [],
             data: [],
+            kids_count: [],
+            count_total: '',
             strSuccess: '',
             strError: ''
         }

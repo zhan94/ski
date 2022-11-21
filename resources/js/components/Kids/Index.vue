@@ -5,10 +5,10 @@
             <div class="d-flex justify-content-between pb-2 mb-2">
                 <h2 class="alert alert-info">Списък с всички деца</h2>
                 <div>
-                    <button class="btn btn-primary" type="button" @click="add">
+                    <button class="btn btn-lg btn-primary" type="button" @click="add">
                         Добави дете към базата с данни
                     </button>
-                    <button class="btn btn-warning" type="button">
+                    <button class="btn btn-lg btn-warning" type="button">
                         Деца с неплатени такси
                     </button>
                 </div>

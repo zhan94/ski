@@ -2,10 +2,10 @@
     <div class="card">
         <div class="card-body">
             <div class="d-flex justify-content-between pb-2 mb-2">
-                <h2 class="alert alert-info">Екипировки</h2>
+                <h2 class="alert alert-info">Допълнителни Занятия</h2>
                 <div>
-                    <button class="btn btn-success" type="button" @click="this.$router.push('/equips/add')">
-                        Добави Екипировка
+                    <button class="btn btn-lg btn-success" type="button" @click="add">
+                        Добави допълнителни Занятия
                     </button>
                 </div>
             </div>
@@ -14,29 +14,32 @@
                 <table class="table table-hover table-bordered table-responsive">
                     <thead class="bg-dark text-light">
                     <tr>
-                        <th>Наименование</th>
-                        <th>За услуга</th>
+                        <th>Услуга</th>
+                        <th>Период</th>
+                        <th>Спирка Взимане</th>
+                        <th>Спирка Оставяне</th>
                         <th>Цени</th>
-                        <th>Настройки</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="equip in equips" :key="equips.id">
-                        <td>{{ equip.name }}</td>
-                        <td>{{ equip.service.name }}</td>
+                    <tr v-for="service in services" :key="services.id">
+                        <td>{{ service.name }}</td>
+                        <td>{{ service.from_date }}г. - {{ service.to_date }}г.</td>
+                        <td>{{ service.pick_up_place }}</td>
+                        <td>{{ service.drop_down_place }}</td>
                         <td>
-                            <div v-for="price in equip.prices" :key="price.id">
+                            <div v-for="price in service.prices" :key="price.id">
                                 Цена за {{ price.day }}
                                 <span v-if="price.day === 1">ден:</span>
                                 <span>дни:</span>
-                                 {{ price.price }} лв.
+                                {{ price.price }} лв.
                             </div>
                         </td>
                         <td class="text-center">
-                            <router-link :to="{name:'editequip', params: {id:equip.id}}" class="btn btn-warning">
-                                Edit
+                            <router-link  @click="edit" :to="{name:'adds', params: {id:service.id}}" class="btn btn-primary">
+                                Редактиране
                             </router-link>
-                            <button class="btn btn-danger" @click="deleteEquip(equip.id)">Delete</button>
                         </td>
                     </tr>
                     </tbody>
@@ -47,20 +50,22 @@
 </template>
 
 <script>
-
+import Add from "./Add.vue";
+import Edit from "./Edit.vue";
+import { ModalSize } from "vue-bs-modal";
 export default {
     data() {
         return {
-            equips: [],
+            services: [],
             strSuccess: '',
             strError: ''
         }
     },
     created() {
         this.$axios.get('/sanctum/csrf-cookie').then(response => {
-            this.$axios.get('/api/equips')
+            this.$axios.get('/api/additional_services')
                 .then(response => {
-                    this.equips = response.data;
+                    this.services = response.data;
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -69,24 +74,28 @@ export default {
         });
     },
     methods: {
-        deleteEquip(id) {
-            this.$axios.get('/sanctum/csrf-cookie').then(response => {
-                let existingObj = this;
-                if (confirm("Потвърждение за изтриване")) {
-                    this.$axios.delete(`/api/equips/${id}`)
-                        .then(response => {
-                            let i = this.equips.map(item => item.id).indexOf(id); // find index of your object
-                            this.equips.splice(i, 1);
-                            existingObj.strError = "";
-                            existingObj.strSuccess = response.data.success;
-                        })
-                        .catch(function (error) {
-                            existingObj.strError = "";
-                            existingObj.strSuccess = error.response.data.message;
-                        });
-                }
+        edit() {
+            this.$vbsModal.open({
+                content: Edit,
+                size: ModalSize.LARGE,
+                staticBackdrop: this.staticBackdrop,
+                contentEmits: {
+                    onUpdate: this.onUpdate,
+                },
+                backgroundScrolling: true,
             });
-        }
+        },
+        add(){
+            this.$vbsModal.open({
+                content: Add,
+                size: ModalSize.LARGE,
+                staticBackdrop: this.staticBackdrop,
+                contentEmits: {
+                    onUpdate: this.onUpdate,
+                },
+                backgroundScrolling: false,
+            });
+        },
     },
 }
 </script>

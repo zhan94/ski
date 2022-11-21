@@ -154,17 +154,17 @@ export const routes = [
     },
     {
         name: 'adds',
-        path: '/additional_service',
+        path: '/additional_services',
         component: Adds
     },
     {
         name: 'addadd',
-        path: '/additional_service/add',
+        path: '/additional_services/add',
         component: AddAdd
     },
     {
         name: 'editadd',
-        path: '/additional_service/edit/:id',
+        path: '/additional_services/edit/:id',
         component: EditAdd
     },
     {

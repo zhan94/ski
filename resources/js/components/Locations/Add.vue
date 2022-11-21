@@ -2,7 +2,6 @@
     <div v-if="strSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
         <strong>{{ strSuccess }}</strong>
     </div>
-
     <div v-if="strError" class="alert alert-danger alert-dismissible fade show" role="alert">
         <strong>{{ strError }}</strong>
     </div>
@@ -20,7 +19,7 @@
             <div class="mb-3">
                 <label class="form-label">Избор на услуга</label>
                 <select class="form-control" v-model="service">
-                    <option value="">Моля изберете Услуга</option>
+                    <option value="">Избор на услуга</option>
                     <option  v-for="service in services" :key="service.id" :value="service.id">
                         {{ service.name }}
                     </option>

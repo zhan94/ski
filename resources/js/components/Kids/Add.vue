@@ -1,3 +1,8 @@
+<style>
+#vbs-modal > span > div.modal.bs-dialog-show > div > div > div.modal-body > form > div:nth-child(3) > div > div.dp__menu.dp__relative.dp__theme_light > div > div > div:nth-child(2) > div{
+    display: none;
+}
+</style>
 <template>
 
     <div v-if="strSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
@@ -35,7 +40,7 @@
 
             <div class="mb-3">
                 <label for="username" class="form-label">Дата на раждане</label>
-                <input type="text" class="form-control" id="birth_date" v-model="birth_date">
+                <Datepicker v-model="birth_date" inline autoApply/>
             </div>
 
             <div class="mb-3">
@@ -66,6 +71,8 @@
 </template>
 
 <script>
+import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
 export default {
     data() {
         return {
@@ -79,6 +86,9 @@ export default {
             strSuccess: '',
             strError: '',
         }
+    },
+    components: {
+        Datepicker
     },
     created() {
         this.$axios.get('/sanctum/csrf-cookie').then(response => {
@@ -112,7 +122,7 @@ export default {
                 formData.append('firstname', this.firstname);
                 formData.append('surname', this.surname);
                 formData.append('lastname', this.lastname);
-                formData.append('birth_date', this.birth_date);
+                formData.append('birth_date',  JSON.stringify(this.birth_date));
                 formData.append('parent_name', this.parent_name);
                 formData.append('parent_email', this.parent_email);
                 formData.append('parent_phone_number', this.parent_phone_number);

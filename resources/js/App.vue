@@ -7,7 +7,7 @@
                         <router-link class="nav-item nav-link" :to="{path:item.route}">{{ item.name }}</router-link>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-item nav-link" style="cursor: pointer;" @click="logout">Logout</a>
+                        <a class="nav-item nav-link" style="cursor: pointer;" @click="logout">Изход</a>
                     </li>
                 </ul>
             </div>
@@ -37,12 +37,7 @@ export default {
                     console.log(error);
                 });
         });
-
-        if (window.Laravel.isLoggedin) {
-            this.isLoggedIn = true
-        }
     },
-
     methods: {
         logout(e) {
             e.preventDefault()

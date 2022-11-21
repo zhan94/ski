@@ -4,7 +4,7 @@
             <div class="d-flex justify-content-between pb-2 mb-2">
                 <h2 class="alert alert-info">Карти</h2>
                 <div>
-                    <button class="btn btn-success" type="button" @click="add">
+                    <button class="btn btn-lg btn-success" type="button" @click="add">
                         Добави Карта
                     </button>
                 </div>
@@ -36,7 +36,6 @@
                             <router-link  @click="edit" :to="{name:'cards', params: {id:card.id}}" class="btn btn-primary">
                                 Редактиране
                             </router-link>
-
                         </td>
                     </tr>
                     </tbody>

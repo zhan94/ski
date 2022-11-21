@@ -4,7 +4,7 @@
             <div class="d-flex justify-content-between pb-2 mb-2">
                 <h2 class="alert alert-info">Екипировки</h2>
                 <div>
-                    <button class="btn btn-success" type="button" @click="this.$router.push('/equips/add')">
+                    <button class="btn btn-lg btn-success" type="button" @click="this.$router.push('/equips/add')">
                         Добави Екипировка
                     </button>
                 </div>
