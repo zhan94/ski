@@ -18,7 +18,6 @@ return new class extends Migration
             $table->foreignId('equip_id')->constrained('equips');
             $table->text('days');
             $table->text('price');
-            $table->timestamps();
         });
     }
 

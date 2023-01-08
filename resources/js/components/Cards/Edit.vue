@@ -92,7 +92,6 @@ export default {
                 .catch(function (error) {
                     console.log(error);
                 });
-
         });
     },
     methods: {
@@ -109,10 +108,10 @@ export default {
             this.$axios.get('/sanctum/csrf-cookie').then(response => {
                 let existingObj = this;
                 const formData = new FormData();
-                formData.append('service_id', this.service);
+                formData.append('service_id', this.service_id);
                 formData.append('name', this.name);
                 formData.append('items', JSON.stringify(this.items));
-                this.$axios.post('/api/cards', formData)
+                this.$axios.put(`/api/cards/${this.$route.params.id}`, formData)
                     .then(response => {
                         existingObj.strError = "";
                         existingObj.strSuccess = response.data.success;

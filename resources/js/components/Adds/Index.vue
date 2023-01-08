@@ -95,7 +95,7 @@ export default {
                 },
                 backgroundScrolling: false,
             });
-        },
+        }
     },
 }
 </script>

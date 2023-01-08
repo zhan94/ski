@@ -92,11 +92,9 @@
                 <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
                     <div class="card h-100">
                         <div class="card-body">
-
                             <div class="row gutters">
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                    <h5 class="mb-2 text-primary">
-                                        Услуга</h5>
+                                    <h5 class="mb-2 text-primary">Услуга</h5>
                                 </div>
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="form-group">
@@ -123,8 +121,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
                             <div class="row gutters">
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                     <h5 class="mb-2 text-primary">
@@ -132,32 +128,29 @@
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="form-group">
                                         <label>Стойност на услугата:</label>
-                                        <input class="form-control">
+                                        <input class="form-control" v-model="sum">
                                     </div>
                                 </div>
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="form-group">
                                         <label>Платено при записване:</label>
-                                        <input class="form-control">
+                                        <input class="form-control" v-model="paid">
                                     </div>
                                 </div>
                             </div>
-
                             <div class="col-xl-12 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label>Дати за услуга</label>
                                     <Datepicker v-model="dates" multiDates inline autoApply/>
                                 </div>
                             </div>
-
                             <div class="row gutters">
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12" style="margin-bottom: 0px">
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="form-group">
                                         <div class="checkbox">
                                             <label>
-                                                <input id="approved" type="checkbox" value="1" name="approved">
-                                                Сканирана форма на
-                                                съгласие на родителя
+                                                <input v-model="approved" type="checkbox" value="1" name="approved">
+                                                Сканирана форма за съгласие на родителя
                                             </label>
                                         </div>
                                     </div>
@@ -166,15 +159,14 @@
                                 <div class="col-xl-12 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="form-group">
                                         <label>Забележка</label>
-                                        <textarea class="form-control" id="note" rows="6"
-                                                  placeholder="Забележка" spellcheck="false"></textarea>
+                                        <textarea class="form-control" v-model="note" rows="6" placeholder="Забележка" spellcheck="false"></textarea>
                                     </div>
                                 </div>
                             </div>
                             <div class="row gutters">
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                     <div class="text-right">
-                                        <button type="submit" class="btn btn-primary mt-4 mb-4">Добавяне</button>
+                                        <button @click="create()" type="submit" class="btn btn-primary mt-4 mb-4">Добавяне</button>
                                     </div>
                                 </div>
                             </div>
@@ -205,6 +197,11 @@ export default {
             kids: [],
             service_types: [],
             selected_kid: [],
+            dates: [],
+            sum: '',
+            paid: '',
+            approved: '',
+            note: '',
             kid_id: '',
             service_type: '',
             service: '',
@@ -244,17 +241,15 @@ export default {
             this.selected_kid = item;
         },
         search() {
-            let kid_id = 0;
             if (this.selected_kid !== '') {
-                kid_id = this.selected_kid.split(' ')[0];
+                this.kid_id = this.selected_kid.split(' ')[0];
             }
             let service_type = this.service_type;
 
             if (service_type) {
-                console.log('das');
                 this.display = true;
             }
-            let url = '/api/kid_services/add/search/' + kid_id + '/' + service_type;
+            let url = '/api/kid_services/add/search/' + this.kid_id + '/' + service_type;
 
             this.$axios.get('/sanctum/csrf-cookie').then(response => {
                 this.$axios.get(url)
@@ -288,14 +283,22 @@ export default {
             this.$axios.get('/sanctum/csrf-cookie').then(response => {
                 let existingObj = this;
                 const formData = new FormData();
-                formData.append('firstname', this.firstname);
-                formData.append('surname', this.surname);
-                formData.append('lastname', this.lastname);
-                formData.append('birth_date', JSON.stringify(this.birth_date));
-                formData.append('parent_name', this.parent_name);
-                formData.append('parent_email', this.parent_email);
-                formData.append('parent_phone_number', this.parent_phone_number);
-                this.$axios.post('/api/kids', formData)
+
+                formData.append('service_id', this.service);
+                formData.append('location_id', this.location);
+                formData.append('kid_id', this.kid_id);
+                formData.append('location_id', this.location);
+                formData.append('skill_id', this.skill);
+                formData.append('equip_id', this.equip);
+                formData.append('card_id', this.card);
+                formData.append('service_type_id', this.service_type);
+                formData.append('dates', JSON.stringify(this.dates));
+                formData.append('sum', this.sum);
+                formData.append('paid', this.paid);
+                formData.append('approved', this.approved);
+                formData.append('note', this.note);
+                formData.append('lunch', this.lumch);
+                this.$axios.post('/api/kid_services', formData)
                     .then(response => {
                         existingObj.strError = "";
                         existingObj.strSuccess = response.data.success;

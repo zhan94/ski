@@ -19,16 +19,12 @@ class AdditionalServicePriceSeeder extends Seeder
             [
                 'service_id' => 1,
                 'day' => '5',
-                'price' => '360',
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s')
+                'price' => '360'
             ],
             [
                 'service_id' => 2,
                 'day' => '5',
-                'price' => '440',
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s')
+                'price' => '440'
             ]
         ]);
     }

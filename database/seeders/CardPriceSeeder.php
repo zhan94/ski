@@ -19,23 +19,17 @@ class CardPriceSeeder extends Seeder
             [
                 'card_id' => 1,
                 'days' => '20',
-                'price' => '80',
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'price' => '80'
             ],
             [
                 'card_id' => 1,
                 'days' => '30',
-                'price' => '120',
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'price' => '120'
             ],
             [
                 'card_id' => 1,
                 'days' => '40',
-                'price' => '150',
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'price' => '150'
             ]
         ]);
     }

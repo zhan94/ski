@@ -9,6 +9,7 @@ use App\Models\Service;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 
 class KidServiceController extends Controller
@@ -18,7 +19,7 @@ class KidServiceController extends Controller
         return KidService::all()->toArray();
     }
 
-    public function store(KidRequest $request): JsonResponse
+    public function store(Request $request): JsonResponse
     {
         $input = $request->all();
 

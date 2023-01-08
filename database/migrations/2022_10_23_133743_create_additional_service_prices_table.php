@@ -18,7 +18,6 @@ return new class extends Migration
             $table->foreignId('service_id')->constrained('additional_services');
             $table->text('day');
             $table->text('price');
-            $table->timestamps();
         });
     }
 

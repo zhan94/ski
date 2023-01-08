@@ -18,7 +18,6 @@ return new class extends Migration
             $table->foreignId('card_id')->constrained('cards');
             $table->text('days');
             $table->text('price');
-            $table->timestamps();
         });
     }
 

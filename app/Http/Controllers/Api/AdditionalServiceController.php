@@ -45,12 +45,12 @@ class AdditionalServiceController extends Controller
         return response()->json($additionalService);
     }
 
-    public function update(Request $request, AdditionalService $additionalService): JsonResponse
+    public function update(Request $request, AdditionalService $additional_service): JsonResponse
     {
-        $data = [];
         $input = $request->all();
         $items = json_decode($input['items']);
-        $service_id = $additionalService->id;
+        $service_id = $additional_service->id;
+        $data = [];
 
         foreach ($items as $item) {
             $data[] = [
@@ -60,7 +60,7 @@ class AdditionalServiceController extends Controller
             ];
         }
 
-        $additionalService->update($input);
+        $additional_service->update($input);
         AdditionalServicePrice::insert($data);
 
         return response()->json(['success' => 'Успешна редакция на занятие']);

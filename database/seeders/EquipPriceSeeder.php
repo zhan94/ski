@@ -19,23 +19,17 @@ class EquipPriceSeeder extends Seeder
             [
                 'equip_id' => 1,
                 'days' => '1',
-                'price' => '60',
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'price' => '60'
             ],
             [
                 'equip_id' => 1,
                 'days' => '2',
-                'price' => '110',
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'price' => '110'
             ],
             [
                 'equip_id' => 1,
                 'days' => '3',
-                'price' => '155',
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'price' => '155'
             ]
         ]);
     }

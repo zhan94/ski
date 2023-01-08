@@ -10,6 +10,11 @@ class KidService extends Model
 {
     use HasFactory;
 
+    protected $fillable  = [
+        'service_data_id', 'service_id', 'kid_id', 'location_id', 'skill_id', 'equip_id', 'card_id', 'service_type_id',
+        'sum', 'paid', 'dates', 'approve', 'lunch'
+    ];
+
     public function kidName(): hasOne
     {
         return $this->hasOne(Kid::class, 'id', 'kid_id')->select(['id', 'firstname', 'lastname', 'birth_date']);

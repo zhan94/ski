@@ -125,7 +125,7 @@ export default{
                 price: ''
             });
         },
-        update(e) {
+        update() {
             this.$axios.get('/sanctum/csrf-cookie').then(response => {
                 let existingObj = this;
                 const formData = new FormData();
@@ -136,7 +136,6 @@ export default{
                 formData.append('to_date', this.to_date);
                 formData.append('description', this.description);
                 formData.append('items',JSON.stringify(this.items));
-                console.log(response);
                 this.$axios.put(`/api/additional_services/${this.$route.params.id}`, formData)
                     .then(response => {
                         existingObj.strError = "";

@@ -22,8 +22,9 @@ class CardController extends Controller
 
         $equip = Card::create($input);
         $card_id = $equip->id;
+        $data = [];
 
-        foreach ($items as $key => $item) {
+        foreach ($items as $item) {
             $data[] = [
                 'card_id' => $card_id,
                 'days' => $item->days,
@@ -47,6 +48,7 @@ class CardController extends Controller
 
         $items = json_decode($input['items']);
         $card_id = $card->id;
+        $data = [];
 
         foreach ($items as $key => $item) {
             $data[] = [

@@ -41,7 +41,7 @@
                             </router-link>
                         </td>
                         <td class="text-center">
-                            <router-link :to="{name:'editkid', params: {id:data.id}}" class="btn btn-warning">
+                            <router-link @click="edit" :to="{name:'services', params: {id:data.id}}" class="btn btn-warning">
                                 <span class="bi-pencil"></span>
                             </router-link>
                         </td>
@@ -55,6 +55,7 @@
 
 <script>
 import Add from "../Data/Add.vue";
+import Edit from "../Data/Edit.vue";
 import {ModalSize} from "vue-bs-modal";
 
 export default {
@@ -91,7 +92,18 @@ export default {
                 },
                 backgroundScrolling: false,
             });
-        }
+        },
+        edit() {
+            this.$vbsModal.open({
+                content: Edit,
+                size: ModalSize.LARGE,
+                staticBackdrop: this.staticBackdrop,
+                contentEmits: {
+                    onUpdate: this.onUpdate,
+                },
+                backgroundScrolling: false,
+            });
+        },
     },
 }
 </script>
