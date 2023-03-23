@@ -72,6 +72,7 @@ export default {
             services: [],
             service: '',
             name: '',
+            prices: [],
             items: [{
                 days: '',
                 prices: ''
@@ -111,7 +112,8 @@ export default {
                 formData.append('service_id', this.service_id);
                 formData.append('name', this.name);
                 formData.append('items', JSON.stringify(this.items));
-                this.$axios.put(`/api/cards/${this.$route.params.id}`, formData)
+                formData.append("_method", "put");
+                this.$axios.post(`/api/cards/${this.$route.params.id}`, formData)
                     .then(response => {
                         existingObj.strError = "";
                         existingObj.strSuccess = response.data.success;

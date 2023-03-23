@@ -19,29 +19,6 @@ class UserController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function login(Request $request): JsonResponse
-    {
-        $credentials = [
-            'email' => $request->email,
-            'password' => $request->password
-        ];
-
-        if(Auth::attempt($credentials)) {
-            $success = true;
-            $message = "User login successfully";
-        } else {
-            $success = false;
-            $message = "Грешно потребителско име или парола!";
-        }
-
-        $response = [
-            'success' => $success,
-            'message' => $message
-        ];
-
-        return response()->json($response);
-    }
-
 
     public function register(Request $request)
     {

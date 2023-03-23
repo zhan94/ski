@@ -4,7 +4,7 @@
             <div class="d-flex justify-content-between pb-2 mb-2">
                 <h2 class="alert alert-info">Екипировки</h2>
                 <div>
-                    <button class="btn btn-lg btn-success" type="button" @click="this.$router.push('/equips/add')">
+                    <button class="btn btn-lg btn-success" type="button" @click="add">
                         Добави Екипировка
                     </button>
                 </div>
@@ -32,10 +32,9 @@
                             </div>
                         </td>
                         <td class="text-center">
-                            <router-link :to="{name:'editequip', params: {id:equip.id}}" class="btn btn-warning">
-                                Edit
+                            <router-link  @click="edit" :to="{name:'equips', params: {id:equip.id}}" class="btn btn-primary">
+                                Редактиране
                             </router-link>
-                            <button class="btn btn-danger" @click="deleteEquip(equip.id)">Delete</button>
                         </td>
                     </tr>
                     </tbody>
@@ -46,6 +45,10 @@
 </template>
 
 <script>
+import Edit from "../Equips/Edit.vue";
+import {ModalSize} from "vue-bs-modal";
+import Add from "../Equips/Add.vue";
+
 export default {
     data() {
         return {
@@ -67,6 +70,39 @@ export default {
         });
     },
     methods: {
+        edit() {
+            this.$vbsModal.open({
+                content: Edit,
+                size: ModalSize.LARGE,
+                staticBackdrop: this.staticBackdrop,
+                contentEmits: {
+                    onUpdate: this.onUpdate,
+                },
+                backgroundScrolling: true,
+            });
+        },
+        update(e) {
+            this.$axios.get('/sanctum/csrf-cookie').then(response => {
+                const formData = new FormData();
+                formData.append('service_id', this.service_id);
+                formData.append('pick_up_place', this.pick_up_place);
+                formData.append('drop_down_place', this.drop_down_place);
+                formData.append('pick_up_time', this.pick_up_time);
+                formData.append('drop_down_time', this.drop_down_time);
+            });
+
+        },
+        add(){
+            this.$vbsModal.open({
+                content: Add,
+                size: ModalSize.LARGE,
+                staticBackdrop: this.staticBackdrop,
+                contentEmits: {
+                    onUpdate: this.onUpdate,
+                },
+                backgroundScrolling: false,
+            });
+        },
         deleteEquip(id) {
             this.$axios.get('/sanctum/csrf-cookie').then(response => {
                 let existingObj = this;

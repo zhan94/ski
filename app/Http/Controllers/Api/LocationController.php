@@ -6,46 +6,50 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreLocationRequest;
 use App\Http\Requests\UpdateLocationRequest;
 use App\Models\Location;
-use App\Models\Service;
+use App\Repositories\Location\LocationRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 
 class LocationController extends Controller
 {
+    private LocationRepositoryInterface $locationRepository;
+    public function __construct(LocationRepositoryInterface $locationRepository)
+    {
+        $this->locationRepository = $locationRepository;
+    }
 
     public function index(): array
     {
-        return Service::with('locations')->get()->toArray();
+        return $this->locationRepository->allLocations();
     }
 
     public function store(StoreLocationRequest $request): JsonResponse
     {
-        $input = $request->all();
-        Location::create($input);
+        $inputData = $request->all();
+        $this->locationRepository->storeLocation($inputData);
 
         return response()->json(['success' => 'Успешно дбавяне на местоположение']);
     }
 
     public function show(Location $location): JsonResponse
     {
-        $location = $location->load('service');
+        $location = $this->locationRepository->findLocation($location);
 
         return response()->json($location);
     }
 
     public function update(UpdateLocationRequest $request, Location $location): JsonResponse
     {
-        $input = $request->all();
-        $location->update($input);
+        $inputData = $request->all();
+        $this->locationRepository->updateLocation($inputData);
 
         return response()->json(['success'=> 'Успешна редакция на местоположение']);
     }
 
     public function destroy(Location $location): JsonResponse
     {
-        $location->delete();
+        $this->locationRepository->destroyLocation($location);
 
         return response()->json(['success' => 'Успешно изтриване на местоположение']);
     }
-
 
 }

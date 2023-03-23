@@ -1,66 +1,64 @@
 <template>
-    <div class="card">
-        <form @submit.prevent="edit">
-            <div class="card-body">
-                <div v-if="strSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    <strong>{{ strSuccess }}</strong>
-                </div>
-                <div v-if="strError" class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    <strong>{{ strError }}</strong>
-                </div>
-                <div class="d-flex justify-content-between pb-2 mb-2">
-                    <h5 class="card-title">Редакция на екипировка</h5>
-                    <div style="margin-left: 75%">
-                        <router-link :to="{name: 'equips'}" class="btn btn-success">Отказ</router-link>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Добави</button>
-                </div>
+    <div v-if="strSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>{{ strSuccess }}</strong>
+    </div>
+    <div v-if="strError" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>{{ strError }}</strong>
+    </div>
+    <div class="modal-header">
+        <h3 class="modal-title">Редакция на карта за услуга {{ service_name }}</h3>
+        <button
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            @click="close"
+        ></button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="mb-3">
+                <label class="form-label">Наименование на карта</label>
+                <input v-model="name" type="text" class="form-control" id="name">
+            </div>
 
-                <div class="row mb-3">
-                    <label for="name" class="col-sm-6 col-form-label">
-                        Наименование на екипировка
-                    </label>
-                    <div class="col-sm-6">
-                        <input v-model="name" type="text" class="form-control" id="name">
-                    </div>
+            <div class="mb-3">
+                <label class="form-label">Текущи цени</label>
+                <div v-for="price in prices" :key="price.id">
+                    Цена за {{ price.days }}
+                    <span v-if="price.days === '1'">ден:</span>
+                    <span v-else>дни:</span>
+                    {{ price.price }}лв.
                 </div>
-                <div class="row mb-3">
-                    <label for="service" class="col-sm-6 col-form-label">За услуга услуга</label>
-                    <div class="col-sm-6">
-                        <span class="form-control"> {{ service_name }}</span>
-                    </div>
+            </div>
+
+            <div class="mb-3">
+                <a @click="addPrice" type="button" class="btn btn-primary">Добавяне на цени <span
+                    class="bi-plus-circle"></span></a>
+            </div>
+            <div v-for="(item, k) in items">
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="Дни:" v-model="item.days">
                 </div>
-                <div class="row mb-3">
-                    <label class="col-sm-6 col-form-label">Добавяне на цена</label>
-                    <div class="col-sm-2">
-                        <span type="text" style="border-width: 0 !important;font-weight: bold;" class="form-control"
-                              placeholder="Дни:">Дни</span>
-                    </div>
-                    <div class="col-sm-2" style="margin-bottom: 10px;">
-                        <span type="text" style="border-width: 0 !important;font-weight: bold;" class="form-control"
-                              placeholder="Цена:">Цена</span>
-                    </div>
-                    <div class="col-sm-1">
-                        <a @click="addPrice" class="btn btn-primary remove_payment"><span class="bi-plus-circle"></span>
-                        </a>
-                    </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="Цена:" v-model="item.prices">
                 </div>
-                <div class="row mb-3">
-                    <div v-for="day in days" class="col-sm-2" style="margin-left: 50%">
-                        <input type="text" class="form-control" placeholder="Дни:" v-model="day.value">
-                    </div>
-                    <div v-for="price in prices" class="col-sm-2">
-                        <input type="text" class="form-control" placeholder="Цена:" v-model="price.value">
-                    </div>
-                    <div v-for="remove in removes" class="col-sm-1">
-                        <a @click="removePrice" class="btn btn-danger remove"><span
-                            class="bi-calendar-minus"></span> </a>
-                    </div>
+                <div class="mb-3">
+                    <a @click="remove(k, item)" class="btn btn-danger remove"><span class="bi-calendar-minus"></span>
+                    </a>
                 </div>
             </div>
         </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" @click="close">
+            Отмяна
+        </button>
+        <button type="button" class="btn btn-danger" @click="deleteEquip(this.$route.params.id)">
+            Изтриване
+        </button>
+        <button type="button" class="btn btn-success" @click="update">
+            Актуализация
+        </button>
     </div>
 </template>
 
@@ -68,58 +66,98 @@
 export default {
     data() {
         return {
+            id: '',
             service_id: '',
             service_name: '',
+            services: [],
+            service: '',
             name: '',
-            days: [],
             prices: [],
-            removes: [],
+            items: [{
+                days: '',
+                prices: ''
+            }],
             strSuccess: '',
             strError: '',
         }
     },
     created() {
-
         this.$axios.get('/sanctum/csrf-cookie').then(response => {
             this.$axios.get(`/api/equips/${this.$route.params.id}`)
-
                 .then(response => {
                     this.name = response.data['name'];
-                    this.service_id = response.data['service']['id']
+                    this.service_id = response.data['service']['id'];
                     this.service_name = response.data['service']['name'];
+                    this.prices = response.data['prices'];
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
-            console.log(response.data);
-
         });
     },
     methods: {
-        addPrice: function () {
-            this.prices.push({value: ''});
-            this.days.push({value: ''});
-            this.removes.push({value: ''});
+        close() {
+            this.$vbsModal.close();
         },
-        edit(e) {
+        addPrice: function () {
+            this.items.push({
+                days: '',
+                prices: ''
+            });
+        },
+        update(e) {
             this.$axios.get('/sanctum/csrf-cookie').then(response => {
                 let existingObj = this;
                 const formData = new FormData();
                 formData.append('service_id', this.service_id);
                 formData.append('name', this.name);
-                formData.append('day', JSON.stringify(this.days));
-                formData.append('price', JSON.stringify(this.prices));
-
-                this.$axios.put(`/api/equips/${this.$route.params.id}`, formData)
+                formData.append('items', JSON.stringify(this.items));
+                formData.append("_method", "put");
+                this.$axios.post(`/api/equips/${this.$route.params.id}`, formData)
                     .then(response => {
                         existingObj.strError = "";
                         existingObj.strSuccess = response.data.success;
+                        setTimeout(function () {
+                            this.close()
+                        }.bind(this), 1500)
                     })
                     .catch(function (error) {
                         existingObj.strSuccess = "";
                         existingObj.strError = error.response.data.message;
                     });
             });
+        },
+        deleteEquip(id) {
+            this.$vbsModal
+                .confirm({
+                    message: "Потвърждение за изтриване?",
+                    title: "Изтриване на местоположение",
+                    leftBtnText: "Отмяна",
+                    rightBtnText: "Изтриване",
+                    staticBackdrop: this.staticBackdrop,
+                    center: this.center,
+                })
+                .then((confirmed) => {
+                    if (confirmed) {
+                        this.$axios.get('/sanctum/csrf-cookie').then(response => {
+                            let existingObj = this;
+                            this.$axios.delete(`/api/equips/${id}`)
+                                .then(response => {
+                                    let i = this.equips.map(item => item.id).indexOf(id);
+                                    this.equips.splice(i, 1);
+                                    existingObj.strError = "";
+                                    existingObj.strSuccess = response.data.success;
+                                    setTimeout(function () {
+                                        this.close()
+                                    }.bind(this), 1500)
+                                })
+                                .catch(function (error) {
+                                    existingObj.strError = "";
+                                    existingObj.strSuccess = error.response.data.message;
+                                });
+                        })
+                    }
+                });
         }
     },
 }

@@ -4,33 +4,34 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\ServicesData;
+use App\Repositories\ServiceData\ServiceDataRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ServicesDataController extends Controller
 {
+    private ServiceDataRepositoryInterface $serviceRepository;
+
+    public function __construct(ServiceDataRepositoryInterface $serviceRepository)
+    {
+        $this->serviceRepository = $serviceRepository;
+    }
 
     public function index(): array
     {
-        return ServicesData::with('kids')->get()->toArray();
+        return $this->serviceRepository->allServiceData();
     }
 
     public function show(ServicesData $data): JsonResponse
     {
-        $servicesData = $data->load('service', 'kids.location', 'kids.kidName');
+        $servicesData = $this->serviceRepository->findServiceData($data);
 
         return response()->json($servicesData);
     }
 
     public function store(Request $request): JsonResponse
     {
-        $input = $request->all();
-        $dates = json_decode($input['dates']);
-        $formatted = array_map(function ($date) {
-            return date('d-m-Y', strtotime($date));
-        }, $dates);
-        $input['dates'] = implode(", ", $formatted);
-        ServicesData::create($input);
+        $this->serviceRepository->storeServiceData($request->all());
 
         return response()->json(['success' => 'Успешно дбавяне на услуга']);
     }

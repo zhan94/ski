@@ -66,7 +66,7 @@ export default {
             pick_up_time: '',
             drop_down_time: '',
             strSuccess: '',
-            strError: '',
+            strError: ''
         }
     },
     created() {
@@ -80,9 +80,7 @@ export default {
                     this.pick_up_time = response.data['pick_up_time'];
                     this.drop_down_time = response.data['drop_down_time'];
                 })
-                .catch(function (error) {
-                    console.log(error);
-                });
+                .catch(function (error) {});
 
         });
     },
@@ -101,8 +99,8 @@ export default {
                 formData.append('drop_down_place', this.drop_down_place);
                 formData.append('pick_up_time', this.pick_up_time);
                 formData.append('drop_down_time', this.drop_down_time);
-
-                this.$axios.put(`/api/locations/${this.$route.params.id}`, formData)
+                formData.append("_method", "put");
+                this.$axios.post(`/api/locations/${this.$route.params.id}`, formData)
                     .then(response => {
                         existingObj.strError = "";
                         existingObj.strSuccess = response.data.success;
@@ -120,7 +118,7 @@ export default {
         deleteLocation(id) {
             this.$vbsModal
                 .confirm({
-                    message: "Потвърждение за изтриване?",
+                    message: "Потвърждение за изтриване " + this.pick_up_place,
                     title: "Изтриване на местоположение",
                     leftBtnText: "Отмяна",
                     rightBtnText: "Изтриване",

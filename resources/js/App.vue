@@ -16,7 +16,7 @@
     <router-view></router-view>
 </template>
 <script>
-
+import { mapActions } from 'vuex'
 export default {
 
     name: "App",
@@ -25,6 +25,7 @@ export default {
             navbars: [],
             strSuccess: '',
             strError: '',
+            user:this.$store.state.auth.user
         }
     },
     created() {
@@ -39,20 +40,13 @@ export default {
         });
     },
     methods: {
-        logout(e) {
-            e.preventDefault()
-            this.$axios.get('/sanctum/csrf-cookie').then(response => {
-                this.$axios.post('/logout')
-                    .then(response => {
-                        if (response.data.success) {
-                            window.location.href = "/login"
-                        } else {
-                            console.log(response);
-                        }
-                    })
-                    .catch(function (error) {
-                        console.error(error);
-                    });
+        ...mapActions({
+            signOut:"auth/logout"
+        }),
+        async logout(){
+            await this.$axios.post('/logout').then(({data})=>{
+                this.signOut()
+                this.$router.push({name:"login"})
             })
         }
     },

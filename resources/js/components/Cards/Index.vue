@@ -89,7 +89,7 @@ export default {
                 contentEmits: {
                     onUpdate: this.onUpdate,
                 },
-                backgroundScrolling: false,
+                backgroundScrolling: true,
             });
         },
         update(e) {

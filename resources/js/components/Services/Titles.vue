@@ -61,7 +61,7 @@
                         <button type="submit" class="btn btn-success">
                             <i class="bi bi-pen"></i>
                         </button>
-                        <button @click="remove({id:service.id})" class="btn btn-danger">
+                        <button @click="deleteTitle({id:service.id})" class="btn btn-danger">
                             <i class="bi bi-trash"></i>
                         </button>
                     </td>
@@ -133,8 +133,40 @@ export default {
                         existingObj.strError = error.response.data.message;
                     });
             });
+        },
+        deleteTitle(id) {
+            console.log(id);
+            this.$vbsModal
+                .confirm({
+                    message: "Потвърждение за изтриване?",
+                    title: "Изтриване на услуга",
+                    leftBtnText: "Отмяна",
+                    rightBtnText: "Изтриване",
+                    staticBackdrop: this.staticBackdrop,
+                    center: this.center,
+                })
+                .then((confirmed) => {
+                    if (confirmed) {
+                        this.$axios.get('/sanctum/csrf-cookie').then(response => {
+                            let existingObj = this;
+                            this.$axios.delete(`/api/services/${id.id}`)
+                                .then(response => {
+                                    let i = this.equips.map(item => item.id).indexOf(id);
+                                    this.equips.splice(i, 1);
+                                    existingObj.strError = "";
+                                    existingObj.strSuccess = response.data.success;
+                                    setTimeout(function () {
+                                        this.close()
+                                    }.bind(this), 1500)
+                                })
+                                .catch(function (error) {
+                                    existingObj.strError = "";
+                                    existingObj.strSuccess = error.response.data.message;
+                                });
+                        })
+                    }
+                });
         }
-
     }
 }
 

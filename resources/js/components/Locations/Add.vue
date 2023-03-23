@@ -97,6 +97,7 @@ export default{
                 formData.append('drop_down_place', this.drop_down_place);
                 formData.append('pick_up_time', this.pick_up_time);
                 formData.append('drop_down_time', this.drop_down_time);
+
                 this.$axios.post('/api/locations', formData)
                     .then(response => {
                         existingObj.strError = "";

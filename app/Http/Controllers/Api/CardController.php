@@ -3,72 +3,47 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\Card\CardRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Models\Card;
-use App\Models\CardPrice;
 use Illuminate\Http\JsonResponse;
 
 class CardController extends Controller
 {
+    private CardRepositoryInterface $cardRepository;
+
+    public function __construct(CardRepositoryInterface $cardRepository)
+    {
+        $this->cardRepository = $cardRepository;
+    }
     public function index(): array
     {
-        return Card::with('prices', 'service')->get()->toArray();
+        return $this->cardRepository->allCards();
     }
 
     public function store(Request $request): JsonResponse
     {
-        $input = $request->all();
-        $items = json_decode($input['items']);
-
-        $equip = Card::create($input);
-        $card_id = $equip->id;
-        $data = [];
-
-        foreach ($items as $item) {
-            $data[] = [
-                'card_id' => $card_id,
-                'days' => $item->days,
-                'price' => $item->prices
-            ];
-        }
-
-        CardPrice::insert($data);
+        $this->cardRepository->storeCard($request->all());
 
         return response()->json(['success' => 'Успешно добавяне на карта']);
     }
 
     public function show(Card $card): JsonResponse
     {
-        $card = $card->load('prices', 'service');
+        $card = $this->cardRepository->findCard($card);
+
         return response()->json($card);
     }
     public function update(Request $request, Card $card): JsonResponse
     {
-        $input = $request->all();
-
-        $items = json_decode($input['items']);
-        $card_id = $card->id;
-        $data = [];
-
-        foreach ($items as $key => $item) {
-            $data[] = [
-                'card_id' => $card_id,
-                'days' => $item->days,
-                'price' => $item->prices
-            ];
-        }
-
-        $card->update($input);
-        $card->prices()->delete();
-        CardPrice::insert($data);
+        $this->cardRepository->updateCard($request->all(), $card);
 
         return response()->json(['success'=> 'Успешна редакция на карта']);
     }
 
     public function destroy(Card $card): JsonResponse
     {
-        $card->prices()->delete();
-        $card->delete();
+        $this->cardRepository->destroyCard($card);
 
         return response()->json(['success' => 'Успешно изтриване на карта']);
     }

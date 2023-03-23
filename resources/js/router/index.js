@@ -1,4 +1,6 @@
 import {createWebHistory, createRouter} from "vue-router";
+import store from '../store'
+const Login = () => import('../components/Auth/Login.vue')
 
 import Navbars from '../App.vue';
 import Services from '../components/Services/Index.vue';
@@ -6,7 +8,6 @@ import Titles from '../components/Services/Titles.vue';
 import Users from '../components/Users/Index.vue';
 import AddUser from '../components/Users/Add.vue';
 import EditUser from '../components/Users/Edit.vue';
-import Login from '../pages/Login.vue';
 import Locations from '../components/Locations/Index.vue';
 import AddLocation from '../components/Locations/Add.vue';
 import EditLocation from '../components/Locations/Edit.vue';
@@ -30,17 +31,34 @@ import EditAdd from '../components/Adds/Edit.vue';
 import Data from '../components/Data/Index.vue';
 import AddData from '../components/Data/Add.vue';
 import EditData from '../components/Data/Edit.vue';
+import Dashboard from '../components/Dashboard.vue';
 
 export const routes = [
     {
-        name: 'login',
-        path: '/login',
-        component: Login
+        name: "login",
+        path: "/login",
+        component: Login,
+        meta: {
+            middleware: "guest",
+            title: `Login`
+        }
+    },
+    {
+        name: "dashboard",
+        path: '/',
+        component: Dashboard,
+        meta: {
+            middleware: "auth",
+            title: `Dashboard`
+        }
     },
     {
         name: 'navbars',
         path: '/navbars',
-        component: Navbars
+        component: Navbars,
+        meta: {
+            middleware: "auth"
+        }
     },
     {
         name: 'users',
@@ -188,5 +206,21 @@ const router = createRouter({
     history: createWebHistory(),
     routes: routes,
 });
+
+router.beforeEach((to, from, next) => {
+    document.title = to.meta.title
+    if (to.meta.middleware === "guest") {
+        if (store.state.auth.authenticated) {
+            next({ name: "dashboard" })
+        }
+        next()
+    } else {
+        if (store.state.auth.authenticated) {
+            next()
+        } else {
+            next({ name: "login" })
+        }
+    }
+})
 
 export default router;
