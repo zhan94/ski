@@ -44,7 +44,7 @@ export default {
             signOut:"auth/logout"
         }),
         async logout(){
-            await this.$axios.post('/logout').then(({data})=>{
+            await this.$axios.post('api/logout').then(({data})=>{
                 this.signOut()
                 this.$router.push({name:"login"})
             })

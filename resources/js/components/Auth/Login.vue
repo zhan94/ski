@@ -56,12 +56,11 @@ export default {
         async login(){
 
             this.processing = true
-            await this.$axios.get('/sanctum/csrf-cookie')
+            await this.$axios.get('/sanctum/csrf-cookie');
             await this.$axios.post('api/login',this.auth).then(({data})=>{
                 this.signIn()
             }).catch(({response})=>{
                 if (response.status===422) {
-                    console.log('test');
                     this.validationErrors = response.data.errors
                 } else  {
                     this.validationErrors = {}
