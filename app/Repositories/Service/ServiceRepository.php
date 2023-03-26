@@ -3,6 +3,7 @@
 namespace App\Repositories\Service;
 
 use App\Models\Service;
+use App\Models\Skill;
 
 class ServiceRepository implements ServiceRepositoryInterface
 {
@@ -31,5 +32,10 @@ class ServiceRepository implements ServiceRepositoryInterface
     {
         $locations = $service->load('locations');
         return $locations->locations;
+    }
+
+    public function allSkills(): array
+    {
+        return Skill::all()->toArray();
     }
 }

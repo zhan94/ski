@@ -65,9 +65,14 @@ export default {
             strError: '',
         }
     },
+    props: {
+        id: {
+            type: Number
+        }
+    },
     created() {
         this.$axios.get('/sanctum/csrf-cookie').then(response => {
-            this.$axios.get(`/api/data/${this.$route.params.id}`)
+            this.$axios.get(`/api/data/${this.id}`)
                 .then(response => {
                     this.max = response.data['max'];
                     this.service_id = response.data['service']['id'];
@@ -77,7 +82,6 @@ export default {
                 .catch(function (error) {
                     console.log(error);
                 });
-                console.log(this.dates);
         });
     },
     methods: {

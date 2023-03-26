@@ -121,6 +121,46 @@
                                     </div>
                                 </div>
                             </div>
+
+
+                            <div class="row gutters" v-if="service_id==1">
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="form-group">
+                                        <label for="fullName">Ниво на дете</label>
+                                        <select class="form-control" v-model="skill">
+                                            <option v-for="skills in skills" :key="skills.id" :value="skills.id">
+                                                {{ skills.name }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+
+                                    <div class="form-group">
+                                        <br>
+                                        <label for="card">Kарта &nbsp;</label>
+                                        <input
+                                            id="card"
+                                            type="checkbox"
+                                            v-model="card"
+                                            true-value="1"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+                                    <br>
+                                    <div class="form-group">
+                                        <label for="equip">Oборудване &nbsp;</label>
+                                        <input
+                                            id="equip"
+                                            type="checkbox"
+                                            v-model="equip"
+                                            true-value="1"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="row gutters">
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                     <h5 class="mb-2 text-primary">
@@ -198,6 +238,10 @@ export default {
             service_types: [],
             selected_kid: [],
             dates: [],
+            skills: [],
+            skill: 0,
+            card: 0,
+            equip: 0,
             sum: '',
             paid: '',
             approved: '',
@@ -273,7 +317,8 @@ export default {
             this.service_id = event.target.value;
             this.$axios.get('/api/services/get_locations/' + this.service_id)
                 .then(response => {
-                    this.locations = response.data;
+                    this.locations = response.data.locations;
+                    this.skills = response.data.skills;
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -297,7 +342,7 @@ export default {
                 formData.append('paid', this.paid);
                 formData.append('approved', this.approved);
                 formData.append('note', this.note);
-                formData.append('lunch', this.lumch);
+                formData.append('lunch', this.lunch);
                 this.$axios.post('/api/kid_services', formData)
                     .then(response => {
                         existingObj.strError = "";

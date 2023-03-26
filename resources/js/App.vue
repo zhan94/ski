@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Tenth navbar example">
+    <nav v-if="this.user" class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Tenth navbar example">
         <div class="container-fluid">
             <div class="collapse navbar-collapse justify-content-md-center" id="navbarsExample08">
                 <ul class="navbar-nav">
@@ -25,7 +25,7 @@ export default {
             navbars: [],
             strSuccess: '',
             strError: '',
-            user:this.$store.state.auth.user
+            user:this.$store.state.auth.authenticated
         }
     },
     created() {

@@ -40,7 +40,8 @@ class AdditionalServiceController extends Controller
 
     public function update(Request $request, AdditionalService $additionalService): JsonResponse
     {
-        $this->additionalServiceRepository->updateAdditionalService($request->all(), $additionalService);
+        $inputData = $request->all();
+        $this->additionalServiceRepository->updateAdditionalService($inputData, $additionalService);
 
         return response()->json(['success' => 'Успешна редакция на занятие']);
     }

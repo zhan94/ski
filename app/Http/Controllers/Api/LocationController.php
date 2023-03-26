@@ -40,7 +40,7 @@ class LocationController extends Controller
     public function update(UpdateLocationRequest $request, Location $location): JsonResponse
     {
         $inputData = $request->all();
-        $this->locationRepository->updateLocation($inputData);
+        $this->locationRepository->updateLocation($inputData, $location);
 
         return response()->json(['success'=> 'Успешна редакция на местоположение']);
     }

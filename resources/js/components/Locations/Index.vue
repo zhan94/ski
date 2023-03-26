@@ -29,9 +29,9 @@
                             <td>{{ location.pick_up_time }}</td>
                             <td>{{ location.drop_down_time }}</td>
                             <td class="text-center">
-                                <router-link  @click="edit" :to="{name:'locations', params: {id:location.id}}" class="btn btn-primary">
+                                <button @click="edit(location.id)" class="btn btn-primary">
                                     Редактиране
-                                </router-link>
+                                </button>
                             </td>
                         </tr>
                     </tbody>
@@ -73,9 +73,12 @@ export default {
         });
     },
     methods: {
-        edit() {
+        edit(id) {
             this.$vbsModal.open({
                 content: Edit,
+                contentProps: {
+                    id: id
+                },
                 size: ModalSize.LARGE,
                 staticBackdrop: this.staticBackdrop,
                 contentEmits: {

@@ -97,9 +97,14 @@ export default{
             strError: '',
         }
     },
+    props: {
+        id: {
+            type: Number
+        }
+    },
     created() {
         this.$axios.get('/sanctum/csrf-cookie').then(response => {
-            this.$axios.get(`/api/additional_services/${this.$route.params.id}`)
+            this.$axios.get(`/api/additional_services/${this.id}`)
                 .then(response => {
                     this.name = response.data['name'];
                     this.pick_up_place = response.data['pick_up_place'];
@@ -135,8 +140,8 @@ export default{
                 formData.append('from_date', this.from_date);
                 formData.append('to_date', this.to_date);
                 formData.append('description', this.description);
-                formData.append('items',JSON.stringify(this.items));
-                this.$axios.put(`/api/additional_services/${this.$route.params.id}`, formData)
+                formData.append('items', JSON.stringify(this.items));
+                this.$axios.put(`/api/additional_services/${this.id}`, formData)
                     .then(response => {
                         existingObj.strError = "";
                         existingObj.strSuccess = response.data.success;
@@ -164,7 +169,7 @@ export default{
                     if (confirmed) {
                         this.$axios.get('/sanctum/csrf-cookie').then(response => {
                             let existingObj = this;
-                            this.$axios.delete(`/api/additional_services/${this.$route.params.id}`)
+                            this.$axios.delete(`/api/additional_services/${this.id}`)
                                 .then(response => {
                                     let i = this.cards.map(item => item.id).indexOf(id); // find index of your object
                                     this.cards.splice(i, 1);

@@ -43,7 +43,7 @@
         <button type="button" class="btn btn-secondary" @click="close">
             Отмяна
         </button>
-        <button type="button" class="btn btn-danger" @click="deleteLocation(this.$route.params.id)">
+        <button type="button" class="btn btn-danger" @click="deleteLocation(this.id)">
             Изтриване
         </button>
         <button type="button" class="btn btn-success" @click="update">
@@ -55,10 +55,10 @@
 </template>
 
 <script>
+
 export default {
     data() {
         return {
-            id: '',
             service_id: '',
             service_name: '',
             pick_up_place: '',
@@ -69,9 +69,14 @@ export default {
             strError: ''
         }
     },
+    props: {
+        id: {
+            type: Number
+        }
+    },
     created() {
         this.$axios.get('/sanctum/csrf-cookie').then(response => {
-            this.$axios.get(`/api/locations/${this.$route.params.id}`)
+            this.$axios.get(`/api/locations/${this.id}`)
                 .then(response => {
                     this.service_id = response.data['service']['id']
                     this.service_name = response.data['service']['name'];
@@ -100,7 +105,7 @@ export default {
                 formData.append('pick_up_time', this.pick_up_time);
                 formData.append('drop_down_time', this.drop_down_time);
                 formData.append("_method", "put");
-                this.$axios.post(`/api/locations/${this.$route.params.id}`, formData)
+                this.$axios.post(`/api/locations/${this.id}`, formData)
                     .then(response => {
                         existingObj.strError = "";
                         existingObj.strSuccess = response.data.success;

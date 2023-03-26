@@ -37,9 +37,9 @@
                             </div>
                         </td>
                         <td class="text-center">
-                            <router-link  @click="edit" :to="{name:'adds', params: {id:service.id}}" class="btn btn-primary">
+                            <button  @click="edit(service.id)" class="btn btn-primary">
                                 Редактиране
-                            </router-link>
+                            </button>
                         </td>
                     </tr>
                     </tbody>
@@ -74,9 +74,12 @@ export default {
         });
     },
     methods: {
-        edit() {
+        edit(id) {
             this.$vbsModal.open({
                 content: Edit,
+                contentProps: {
+                    id: id
+                },
                 size: ModalSize.LARGE,
                 staticBackdrop: this.staticBackdrop,
                 contentEmits: {

@@ -93,9 +93,12 @@ export default {
                 backgroundScrolling: false,
             });
         },
-        edit() {
+        edit(id) {
             this.$vbsModal.open({
                 content: Edit,
+                contentProps: {
+                    id: id
+                },
                 size: ModalSize.LARGE,
                 staticBackdrop: this.staticBackdrop,
                 contentEmits: {

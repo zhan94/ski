@@ -9,5 +9,6 @@ interface ServiceRepositoryInterface
     public function updateService($inputData, $service);
     public function destroyService($service);
     public function findLocationsByService($service);
+    public function allSkills();
 
 }

@@ -48,8 +48,11 @@ class ServiceController extends Controller
 
     public function getLocations(Service $service): JsonResponse
     {
-        $locations = $this->serviceRepository->findLocationsByService($service);
+        $data['locations'] = $this->serviceRepository->findLocationsByService($service);
+        if ((int) $service['id'] ===1 ) {
+            $data['skills'] = $this->serviceRepository->allSkills();
+        }
 
-        return response()->json($locations);
+        return response()->json($data);
     }
 }

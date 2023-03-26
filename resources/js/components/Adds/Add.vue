@@ -127,7 +127,7 @@ export default{
                 formData.append('from_date', this.from_date);
                 formData.append('to_date', this.to_date);
                 formData.append('description', this.description);
-                formData.append('items',JSON.stringify(this.items));
+                formData.append('items', JSON.stringify(this.items));
                 this.$axios.post('/api/additional_services', formData)
                     .then(response => {
                         existingObj.strError = "";

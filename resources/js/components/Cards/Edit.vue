@@ -66,7 +66,6 @@
 export default {
     data() {
         return {
-            id: '',
             service_id: '',
             service_name: '',
             services: [],
@@ -81,9 +80,14 @@ export default {
             strError: '',
         }
     },
+    props: {
+        id: {
+            type: Number
+        }
+    },
     created() {
         this.$axios.get('/sanctum/csrf-cookie').then(response => {
-            this.$axios.get(`/api/cards/${this.$route.params.id}`)
+            this.$axios.get(`/api/cards/${this.id}`)
                 .then(response => {
                     this.name = response.data['name'];
                     this.service_id = response.data['service']['id'];
@@ -113,7 +117,7 @@ export default {
                 formData.append('name', this.name);
                 formData.append('items', JSON.stringify(this.items));
                 formData.append("_method", "put");
-                this.$axios.post(`/api/cards/${this.$route.params.id}`, formData)
+                this.$axios.post(`/api/cards/${this.id}`, formData)
                     .then(response => {
                         existingObj.strError = "";
                         existingObj.strSuccess = response.data.success;
