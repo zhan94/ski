@@ -10,7 +10,7 @@ class ServiceRepository implements ServiceRepositoryInterface
 
     public function allServices(): array
     {
-        return Service::with('data.kids_count')->get()->toArray();
+        return Service::with(['data.kids_count','data.dates'])->get()->toArray();
     }
 
     public function storeService($inputData)

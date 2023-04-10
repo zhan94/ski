@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ServiceTypeSeeder::class);
         $this->call(ServiceSeeder::class);
         $this->call(ServiceDataSeeder::class);
+        $this->call(ServiceDataDatesSeeder::class);
         $this->call(LocationSeeder::class);
         $this->call(SkillSeeder::class);
         $this->call(EquipSeeder::class);
@@ -26,6 +27,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CardPriceSeeder::class);
         $this->call(KidSeeder::class);
         $this->call(KidServiceSeeder::class);
+        $this->call(KidServiceDatesSeeder::class);
         $this->call(AdditionalServiceSeeder::class);
         $this->call(AdditionalServicePriceSeeder::class);
         $this->call(NavBarSeeder::class);

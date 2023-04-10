@@ -4,12 +4,19 @@ namespace App\Repositories\KidService;
 
 use App\Models\KidService;
 use App\Models\Service;
+use App\Repositories\ServiceData\ServiceDataRepository;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\JsonResponse;
 
 class KidServiceRepository implements KidServiceRepositoryInterface
 {
+    private ServiceDataRepository $serviceData;
+    function __construct(ServiceDataRepository $serviceData)
+    {
+        $this->serviceData = $serviceData;
+    }
+
     public function allKidServices(): array
     {
         return KidService::all()->toArray();
@@ -17,7 +24,8 @@ class KidServiceRepository implements KidServiceRepositoryInterface
 
     public function storeKidService($inputData): void
     {
-        KidService::create($inputData);
+        $this->getServiceDataIdByDates($inputData);
+        //KidService::create($inputData);
     }
 
     public function findKidService($kidService): array
@@ -25,12 +33,12 @@ class KidServiceRepository implements KidServiceRepositoryInterface
         return $kidService->load();
     }
 
-    public function updateKidService($inputData, $kidService): bool
+    public function updateKidService($inputData, $kidService): void
     {
         $kidService->update($inputData);
     }
 
-    public function destroyKidService($kidService): bool
+    public function destroyKidService($kidService): void
     {
         $kidService->delete();
     }
@@ -65,5 +73,11 @@ class KidServiceRepository implements KidServiceRepositoryInterface
         $report['date_to'] = $dateTo;
 
         return $report;
+    }
+
+    private function getServiceDataIdByDates($inputData)
+    {
+        $dates = json_decode($inputData['dates']);
+        $this->serviceData->checkIfDataIsAdded($inputData);
     }
 }

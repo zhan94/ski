@@ -1,7 +1,6 @@
 <template>
     <div class="card">
         <div class="card-body">
-
             <div class="d-flex justify-content-between pb-2 mb-2">
                 <h2 class="alert alert-info">Записани деца за следните дати за <b>{{ data.service.service_name }}</b>
                 </h2>
@@ -16,14 +15,18 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="kid in data.kids" :key="kid.id">
-                        <td>{{ kid.kid_name.firstname }}</td>
-                        <td>{{ kid.dates }}</td>
-                        <td>
-                            {{ kid.location.pick_up_place + ' - ' + kid.location.drop_down_place }} <br/>
-                            {{ '(' + kid.location.pick_up_time + ' - ' + kid.location.drop_down_time + ')' }}
-                        </td>
-                    </tr>
+                        <tr v-for="kid in data.kids" :key="kid.id">
+                            <td>{{ kid.kid_name.firstname }}</td>
+                            <td>
+                                <span v-for="(date, index) in kid.service_dates">
+                                    {{ date.service_date }},
+                                </span>
+                            </td>
+                            <td>
+                                {{ kid.location.pick_up_place + ' - ' + kid.location.drop_down_place }} <br/>
+                                {{ '(' + kid.location.pick_up_time + ' - ' + kid.location.drop_down_time + ')' }}
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -37,6 +40,7 @@ export default {
     data() {
         return {
             data: [],
+            service_dates: [],
             kid_name: [],
             service_name: '',
             strSuccess: '',

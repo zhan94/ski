@@ -27,9 +27,13 @@
                     </thead>
                     <tbody>
                     <tr v-for="data in service.data" :key="data.id">
-                        <td>{{ data.dates }}</td>
+                        <td>
+                            <span v-for="(date, index) in data.dates">
+                                {{ date.service_date }},
+                            </span>
+                        </td>
                         <td class="text-center">
-                            <h4 v-for="totals in data.kids_count" :key="data.id"  >
+                            <h4 v-for="totals in data.kids_count" :key="data.id">
                                 <span class="badge bg-secondary">
                                     {{ totals.count_total }} / {{ data.max }}
                                 </span>
@@ -41,7 +45,8 @@
                             </router-link>
                         </td>
                         <td class="text-center">
-                            <router-link @click="edit" :to="{name:'services', params: {id:data.id}}" class="btn btn-warning">
+                            <router-link @click="edit" :to="{name:'services', params: {id:data.id}}"
+                                         class="btn btn-warning">
                                 <span class="bi-pencil"></span>
                             </router-link>
                         </td>
@@ -63,8 +68,10 @@ export default {
         return {
             services: [],
             data: [],
+            dates: [],
             kids_count: [],
             count_total: '',
+            service_date: '',
             strSuccess: '',
             strError: ''
         }

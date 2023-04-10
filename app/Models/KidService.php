@@ -4,15 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\hasOne;
 
 class KidService extends Model
 {
     use HasFactory;
 
-    protected $fillable  = [
-        'service_data_id', 'service_id', 'kid_id', 'location_id', 'skill_id', 'equip_id', 'card_id', 'service_type_id',
-        'sum', 'paid', 'dates', 'approve', 'lunch'
+    protected $fillable = [
+        'service_data_id', 'service_id', 'kid_id', 'location_id', 'skill_id',
+        'equip_id', 'card_id', 'service_type_id', 'sum', 'paid', 'approve', 'lunch'
     ];
 
     public function kidName(): hasOne
@@ -48,5 +49,10 @@ class KidService extends Model
     public function service_data(): hasOne
     {
         return $this->hasOne(ServicesData::class, 'id', 'services_data_id');
+    }
+
+    public function service_dates(): hasMany
+    {
+        return $this->hasMany(KidServiceDate::class);
     }
 }

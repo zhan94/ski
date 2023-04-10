@@ -8,26 +8,22 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('services_data', function (Blueprint $table) {
+        Schema::create('kid_service_dates', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('service_id')->constrained('services');
-            $table->integer('max');
+            $table->foreignId('kid_service_id')->constrained('kid_services');
+            $table->date('service_date');
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('services_data');
+        Schema::dropIfExists('kid_service_dates');
     }
 };

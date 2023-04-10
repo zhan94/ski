@@ -12,16 +12,16 @@ class ServicesData extends Model
     use HasFactory;
 
     protected $fillable  = [
-        'service_id', 'dates', 'max'
+        'service_id', 'max'
     ];
 
     public function kids(): HasMany
     {
-        $select = ['id', 'services_data_id', 'kid_id', 'location_id', 'dates'];
+        $select = ['id', 'services_data_id', 'kid_id', 'location_id'];
         return $this->hasMany(KidService::class)->select($select);
     }
 
-    public function kids_count()
+    public function kids_count(): hasMany
     {
         return $this->hasMany(KidService::class)
             ->selectRaw('services_data_id, count(*) as count_total')
@@ -31,6 +31,11 @@ class ServicesData extends Model
     public function service(): hasOne
     {
         return $this->hasOne(Service::class, 'id', 'service_id')->select(['id', 'name as service_name']);
+    }
+
+    public function dates(): hasMany
+    {
+        return $this->hasMany(ServiceDataDate::class, 'service_data_id', 'id');
     }
 
 }

@@ -28,7 +28,6 @@ class KidServiceController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        #TODO fetch service data dates
         $inputData = $request->all();
         $this->kidServiceRepository->storeKidService($inputData);
 

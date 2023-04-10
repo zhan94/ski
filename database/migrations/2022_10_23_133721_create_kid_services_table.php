@@ -46,7 +46,6 @@ return new class extends Migration
 
             $table->string("sum");
             $table->string("paid");
-            $table->text("dates");
             $table->integer('approve');
             $table->string("lunch");
             $table->timestamps();
