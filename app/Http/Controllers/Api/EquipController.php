@@ -23,7 +23,7 @@ class EquipController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $this->equipRepository->storeEquip($request->all());
+        $this->equipRepository->store($request->all());
 
         return response()->json(['success' => 'Успешно добавяне на екипировка']);
     }

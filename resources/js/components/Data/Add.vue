@@ -7,7 +7,6 @@
 
     <div class="modal-header">
         <h3 class="modal-title">Добавяне на дати за услуга</h3>
-
         <button
             type="button"
             class="btn-close"
@@ -83,7 +82,6 @@ export default {
                 .catch(function (error) {
                     console.log(error);
                 });
-
         });
     },
     methods: {

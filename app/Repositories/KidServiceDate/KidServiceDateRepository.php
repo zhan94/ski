@@ -1,17 +1,22 @@
 <?php
 
-namespace App\Repositories\KidService;
+namespace App\Repositories\KidServiceDate;
 
 use App\Models\KidService;
+use App\Models\KidServiceDate;
 
-class KidServiceRepository implements KidServiceRepositoryInterface
+class KidServiceDateRepository implements KidServiceDateRepositoryInterface
 {
-
     private KidService $kidService;
+    private KidServiceDate $kidServiceDate;
 
-    function __construct(KidService $kidService)
+    function __construct(
+        KidService                $kidService,
+        KidServiceDate            $kidServiceDate
+    )
     {
         $this->kidService = $kidService;
+        $this->kidServiceDate = $kidServiceDate;
     }
 
     public function all(): array
@@ -19,19 +24,15 @@ class KidServiceRepository implements KidServiceRepositoryInterface
         return $this->kidService->all()->toArray();
     }
 
-    public function store($inputData)
+    public function store($dates, $serviceId): void
     {
-         return $this->kidService->create($inputData);
-    }
-
-    public function get($kidService): array
-    {
-        return $kidService->load();
-    }
-
-    public function update($inputData, $kidService): void
-    {
-        $kidService->update($inputData);
+        $data = [];
+        foreach ($dates as $date) {
+            $this->kidServiceDate->create([
+                'kid_service_id' => $serviceId,
+                'kid_service_date' => $date
+            ]);
+        }
     }
 
     public function delete($kidService): void
@@ -39,8 +40,9 @@ class KidServiceRepository implements KidServiceRepositoryInterface
         $kidService->delete();
     }
 
-    public function getByKidAndService($kid, $service): array|null
+    public function getKidServiceDatesByKidAndService($kid, $service): array
     {
+        $serviceDates = [];
         $serviceId = $service->id;
         $kidId = $kid->id;
         $getDates = $this->kidService->with('service_dates')
@@ -49,10 +51,10 @@ class KidServiceRepository implements KidServiceRepositoryInterface
             ->get();
 
         if ($getDates) {
-            return $this->getDatesFromResult($getDates);
+            $serviceDates = $this->getDatesFromResult($getDates);
         }
 
-        return null;
+        return $serviceDates;
     }
 
     private function getDatesFromResult($serviceDates): array

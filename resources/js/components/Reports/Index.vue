@@ -116,6 +116,7 @@ export default {
             equip: [],
             location: [],
             skill: [],
+            firstname: '',
             service: '',
             inputValue: '',
             strSuccess: '',
@@ -142,11 +143,9 @@ export default {
                 let existingObj = this;
                 let url = '/api/kid_services/add/report/' + this.service + '/' + this.range.start + '/' + this.range.end;
                 this.$axios.get(url)
-
                     .then(response => {
                         this.display = true;
                         this.report_data = response.data;
-
                     })
                     .catch(function (error) {
                         existingObj.strError = error.response.data.message;

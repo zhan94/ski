@@ -31,6 +31,8 @@ return new class extends Migration
                 ->constrained('locations');
 
             $table->foreignId('skill_id')
+                ->default(0)
+                ->nullable()
                 ->constrained('skills');
 
             $table->foreignId('equip_id')
@@ -44,9 +46,12 @@ return new class extends Migration
             $table->foreignId('service_type_id')
                 ->constrained('service_types');
 
-            $table->string("sum");
-            $table->string("paid");
-            $table->integer('approve');
+            $table->string("sum")
+                ->nullable();
+            $table->string("paid")
+                ->nullable();
+            $table->integer('approve')
+                ->default(0);
             $table->string("lunch");
             $table->timestamps();
         });

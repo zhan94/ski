@@ -9,12 +9,12 @@ use App\Models\ServiceType;
 
 class KidRepository implements KidRepositoryInterface
 {
-    public function allKids(): array
+    public function all(): array
     {
         return Kid::all()->toArray();
     }
 
-    public function createKid(): array
+    public function create(): array
     {
         $service_types = ServiceType::all();
         $kids_data = array();
@@ -34,31 +34,32 @@ class KidRepository implements KidRepositoryInterface
         return $data;
     }
 
-    public function storeKid($inputData): void
+    public function store($inputData): void
     {
         $inputData['birth_date'] = date('d-m-Y', strtotime($inputData['birth_date']));
         Kid::create($inputData);
     }
 
-    public function findKid($kid): array
+    public function get($kid): array
     {
         return $kid->load('kid_services.service_data.service');
     }
 
-    public function updateKid($inputData, $kid): void
+    public function update($inputData, $kid): void
     {
         $kid->update($inputData);
     }
 
-    public function destroyKid($kid)
+    public function delete($kid): void
     {
-       $kid->delete();
+        $kid->delete();
     }
+
     public function search($kid, $serviceType): array
     {
         $data = array();
         $kid = $kid->load('kid_services.service_data.service');
-        if ($serviceType->id === 1){
+        if ($serviceType->id === 1) {
             $services = Service::all();
         } else {
             $services = AdditionalService::all();

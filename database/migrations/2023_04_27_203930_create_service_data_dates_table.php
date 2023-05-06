@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('service_data_dates', function (Blueprint $table) {
             $table->id();
             $table->foreignId('service_data_id')->constrained('services_data');
-            $table->date("service_date");
+            $table->date('service_data_date');
         });
     }
 

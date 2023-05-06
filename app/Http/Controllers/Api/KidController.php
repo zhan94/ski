@@ -23,12 +23,12 @@ class KidController extends Controller
 
     public function index(): array
     {
-        return $this->kidRepository->allKids();
+        return $this->kidRepository->all();
     }
 
     public function create(): JsonResponse
     {
-        $data = $this->kidRepository->createKid();
+        $data = $this->kidRepository->create();
 
         return response()->json($data);
     }
@@ -36,14 +36,14 @@ class KidController extends Controller
     public function store(KidRequest $request): JsonResponse
     {
         $inputData = $request->all();
-        $this->kidRepository->storeKid($inputData);
+        $this->kidRepository->store($inputData);
 
         return response()->json(['success' => 'Успешно дбавяне на дете']);
     }
 
     public function show(Kid $kid): JsonResponse
     {
-        $kid = $this->kidRepository->findKid($kid);
+        $kid = $this->kidRepository->get($kid);
 
         return response()->json($kid);
     }
@@ -51,14 +51,14 @@ class KidController extends Controller
     public function update(KidRequest $request, Kid $kid): JsonResponse
     {
         $inputData = $request->all();
-        $this->kidRepository->updateKid($inputData, $kid);
+        $this->kidRepository->update($inputData, $kid);
 
         return response()->json(['success'=> 'Успешна редакция на дете']);
     }
 
     public function destroy(Kid $kid): JsonResponse
     {
-        $this->kidRepository->destroyKid($kid);
+        $this->kidRepository->delete($kid);
 
         return response()->json(['success' => 'Успешно изтриване на дете']);
     }

@@ -31,6 +31,8 @@ Route::get('services/get_locations/{service}', [ServiceController::class, 'getLo
 Route::get('kid_services/add', [KidController::class, 'create']);
 Route::get('kid_services/add/search/{kid}/{service_type}', [KidController::class, 'search']);
 Route::get('kid_services/add/report/{service}/{date_from}/{date_to}', [KidServiceController::class, 'report']);
+Route::get('kid_services/add/kid_service_dates/{kid}/{service}', [KidServiceController::class, 'getByKidAndService']);
+
 
 Route::apiResource('additional_services', AdditionalServiceController::class);
 Route::apiResource('cards', CardController::class);

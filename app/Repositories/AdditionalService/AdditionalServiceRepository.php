@@ -8,17 +8,17 @@ use App\Models\AdditionalServicePrice;
 class AdditionalServiceRepository implements AdditionalServiceRepositoryInterface
 {
 
-    public function allAdditionalServices(): array
+    public function all(): array
     {
         return AdditionalService::with('prices')->get()->toArray();
     }
 
-    public function findAdditionalService($additionalService)
+    public function get($additionalService)
     {
         $additionalService->load('prices');
     }
 
-    public function storeAdditionalService($inputData): void
+    public function store($inputData): void
     {
         $data = [];
 
@@ -38,7 +38,7 @@ class AdditionalServiceRepository implements AdditionalServiceRepositoryInterfac
         AdditionalServicePrice::insert($data);
     }
 
-    public function updateAdditionalService($inputData, $additionalService)
+    public function update($inputData, $additionalService)
     {
         $items = json_decode($inputData['items']);
         $serviceId = $additionalService->id;
@@ -56,7 +56,7 @@ class AdditionalServiceRepository implements AdditionalServiceRepositoryInterfac
         AdditionalServicePrice::insert($data);
     }
 
-    public function destroyAdditionalService($additionalService): void
+    public function delete($additionalService): void
     {
         $additionalService->prices()->delete();
         $additionalService->delete();

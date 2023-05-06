@@ -28,8 +28,8 @@
                     <tbody>
                     <tr v-for="data in service.data" :key="data.id">
                         <td>
-                            <span v-for="(date, index) in data.dates">
-                                {{ date.service_date }},
+                            <span v-for="date in data.data_dates">
+                                {{ date.service_data_date }},
                             </span>
                         </td>
                         <td class="text-center">
@@ -68,10 +68,10 @@ export default {
         return {
             services: [],
             data: [],
-            dates: [],
+            data_dates: [],
             kids_count: [],
             count_total: '',
-            service_date: '',
+            service_data_date: '',
             strSuccess: '',
             strError: ''
         }
@@ -85,7 +85,6 @@ export default {
                 .catch(function (error) {
                     console.log(error);
                 });
-
         });
     },
     methods: {

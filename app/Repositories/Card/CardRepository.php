@@ -8,38 +8,38 @@ use Illuminate\Http\JsonResponse;
 
 class CardRepository implements CardRepositoryInterface
 {
-    public function allCards(): array
+    public function all(): array
     {
         return Card::with('prices', 'service')->get()->toArray();
     }
 
-    public function storeCard($input)
+    public function store($inputData): void
     {
-        $card = Card::create($input);
+        $card = Card::create($inputData);
         $card_id = $card->id;
-        $this->updateCardPrices($input, $card_id);
+        $this->updateCardPrices($inputData, $card_id);
     }
 
-    public function findCard($card)
+    public function get($card)
     {
         return $card->load('prices', 'service');
     }
 
-    public function updateCard($input, $card)
+    public function update($inputData, $card): void
     {
         $card_id = $card->id;
-        $card->update($input);
+        $card->update($inputData);
         $card->prices()->delete();
-        $this->updateCardPrices($input, $card_id);
+        $this->updateCardPrices($inputData, $card_id);
     }
 
-    public function destroyCard($card): JsonResponse
+    public function delete($card): void
     {
         $card->prices()->delete();
         $card->delete();
     }
 
-    public function updateCardPrices($input, $card_id)
+    public function updateCardPrices($input, $card_id): void
     {
         $items = json_decode($input['items']);
         $data = [];

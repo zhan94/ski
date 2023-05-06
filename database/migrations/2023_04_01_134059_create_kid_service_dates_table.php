@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('kid_service_dates', function (Blueprint $table) {
             $table->id();
             $table->foreignId('kid_service_id')->constrained('kid_services');
-            $table->date('service_date');
-            $table->timestamps();
+            $table->date('kid_service_date');
         });
     }
 

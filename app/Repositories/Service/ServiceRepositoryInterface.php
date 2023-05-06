@@ -4,11 +4,16 @@ namespace App\Repositories\Service;
 
 interface ServiceRepositoryInterface
 {
-    public function allServices();
-    public function storeService($inputData);
-    public function updateService($inputData, $service);
-    public function destroyService($service);
+    public function all();
+
+    public function store($inputData);
+
+    public function update($inputData, $service);
+
+    public function delete($service);
+
     public function findLocationsByService($service);
+
     public function allSkills();
 
 }

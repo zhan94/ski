@@ -33,7 +33,7 @@ class ServicesData extends Model
         return $this->hasOne(Service::class, 'id', 'service_id')->select(['id', 'name as service_name']);
     }
 
-    public function dates(): hasMany
+    public function data_dates(): hasMany
     {
         return $this->hasMany(ServiceDataDate::class, 'service_data_id', 'id');
     }

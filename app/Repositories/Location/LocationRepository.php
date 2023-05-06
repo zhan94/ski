@@ -9,27 +9,27 @@ use App\Repositories\Location\LocationRepositoryInterface as LocationRepositoryI
 
 class LocationRepository implements LocationRepositoryInterface
 {
-    public function allLocations(): array
+    public function all(): array
     {
         return Service::with('locations')->get()->toArray();
     }
 
-    public function storeLocation($inputData)
+    public function store($inputData)
     {
         return Location::create($inputData);
     }
 
-    public function findLocation($location)
+    public function get($location)
     {
         return $location->load('service');
     }
 
-    public function updateLocation($inputData, $location): void
+    public function update($inputData, $location): void
     {
         $location->update($inputData);
     }
 
-    public function destroyLocation($location): bool
+    public function delete($location): bool
     {
         return $location->delete();
     }

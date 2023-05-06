@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ServiceTypeSeeder::class);
         $this->call(ServiceSeeder::class);
         $this->call(ServiceDataSeeder::class);
-        $this->call(ServiceDataDatesSeeder::class);
+        $this->call(ServiceDataDateSeeder::class);
         $this->call(LocationSeeder::class);
         $this->call(SkillSeeder::class);
         $this->call(EquipSeeder::class);

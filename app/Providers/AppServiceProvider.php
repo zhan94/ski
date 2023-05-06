@@ -12,10 +12,14 @@ use App\Repositories\Kid\KidRepository;
 use App\Repositories\Kid\KidRepositoryInterface;
 use App\Repositories\KidService\KidServiceRepository;
 use App\Repositories\KidService\KidServiceRepositoryInterface;
+use App\Repositories\ReportRepository\ReportRepository;
+use App\Repositories\ReportRepository\ReportRepositoryInterface;
 use App\Repositories\Service\ServiceRepository;
 use App\Repositories\Service\ServiceRepositoryInterface;
 use App\Repositories\ServiceData\ServiceDataRepository;
 use App\Repositories\ServiceData\ServiceDataRepositoryInterface;
+use App\Repositories\ServiceDataDate\ServiceDataDateRepository;
+use App\Repositories\ServiceDataDate\ServiceDataDateRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 use App\Repositories\Location\LocationRepositoryInterface;
 use App\Repositories\Location\LocationRepository;
@@ -32,6 +36,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(AdditionalServiceRepositoryInterface::class, AdditionalServiceRepository::class);
         $this->app->bind(ServiceRepositoryInterface::class, ServiceRepository::class);
         $this->app->bind(ServiceDataRepositoryInterface::class, ServiceDataRepository::class);
+        $this->app->bind(ServiceDataDateRepositoryInterface::class, ServiceDataDateRepository::class);
+        $this->app->bind(ReportRepositoryInterface::class, ReportRepository::class);
+
     }
 
     public function boot(): void

@@ -26,7 +26,7 @@ class AdditionalServiceController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $this->additionalServiceRepository->storeAdditionalService($request->all());
+        $this->additionalServiceRepository->store($request->all());
 
         return response()->json(['success' => 'Успешно добавяне на допълнителни занятия']);
     }
@@ -41,14 +41,14 @@ class AdditionalServiceController extends Controller
     public function update(Request $request, AdditionalService $additionalService): JsonResponse
     {
         $inputData = $request->all();
-        $this->additionalServiceRepository->updateAdditionalService($inputData, $additionalService);
+        $this->additionalServiceRepository->update($inputData, $additionalService);
 
         return response()->json(['success' => 'Успешна редакция на занятие']);
     }
 
     public function destroy(AdditionalService $additionalService): JsonResponse
     {
-        $this->additionalServiceRepository->destroyAdditionalService($additionalService);
+        $this->additionalServiceRepository->delete($additionalService);
 
         return response()->json(['success' => 'Успешно изтриване на занятие']);
     }

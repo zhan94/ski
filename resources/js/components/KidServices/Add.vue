@@ -60,15 +60,13 @@
         </form>
         <br>
         <div class="card-body" v-if="display" id="add_form">
-
             <div class="row gutters">
                 <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
                     <div class="card h-100">
                         <div class="card-body">
                             <div class="account-settings">
-                                <div class="user-profile">
-
-                                    <h4 class="user-name">{{ firstname + ' ' + surname + ' ' + lastname }}</h4>
+                                <div>
+                                    <h4>{{ firstname + ' ' + surname + ' ' + lastname }}</h4>
                                     <h5 class="user-email">
                                         <i class="bi bi-calendar-event"></i>
                                         {{ birth_date }}г.
@@ -98,7 +96,7 @@
                                 </div>
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="form-group">
-                                        <label for="fullName">Избор на услуга:</label>
+                                        <label>Избор на услуга:</label>
                                         <select class="form-control" v-model="service" @change="loadLocations($event)">
                                             <option v-for="service in services" :key="service.id" :value="service.id">
                                                 {{ service.name }}
@@ -108,7 +106,7 @@
                                 </div>
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="form-group">
-                                        <label for="eMail">Местоположение:</label>
+                                        <label>Местоположение:</label>
                                         <select class="form-control" v-model="location">
                                             <option v-for="location in locations" :key="location.id"
                                                     :value="location.id">
@@ -121,12 +119,10 @@
                                     </div>
                                 </div>
                             </div>
-
-
-                            <div class="row gutters" v-if="service_id==1">
+                            <div class="row gutters" v-if="this.service_id==='1'">
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div class="form-group">
-                                        <label for="fullName">Ниво на дете</label>
+                                        <label>Ниво на дете</label>
                                         <select class="form-control" v-model="skill">
                                             <option v-for="skills in skills" :key="skills.id" :value="skills.id">
                                                 {{ skills.name }}
@@ -135,10 +131,9 @@
                                     </div>
                                 </div>
                                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
-
                                     <div class="form-group">
                                         <br>
-                                        <label for="card">Kарта &nbsp;</label>
+                                        <label>Kарта &nbsp;</label>
                                         <input
                                             id="card"
                                             type="checkbox"
@@ -178,10 +173,16 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-12 col-lg-6 col-md-6 col-sm-6 col-12">
+                            <div class="col-xl-12 col-lg-6 col-md-6 col-sm-6 col-12" v-if="this.service_id!==''">
                                 <div class="form-group">
                                     <label>Дати за услуга</label>
-                                    <Datepicker v-model="dates" multiDates inline autoApply/>
+                                    <Datepicker
+                                        v-model="dates"
+                                        multiDates
+                                        inline
+                                        autoApply
+                                        :disabled-dates="this.disabledDates"
+                                    />
                                 </div>
                             </div>
                             <div class="row gutters">
@@ -223,7 +224,7 @@ import SimpleTypeahead from 'vue3-simple-typeahead';
 import 'vue3-simple-typeahead/dist/vue3-simple-typeahead.css'
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
-
+import { ref, computed } from 'vue';
 export default {
     name: 'my-vue-component',
     components: {
@@ -239,9 +240,12 @@ export default {
             selected_kid: [],
             dates: [],
             skills: [],
+            disabledDates: [],
+            kidServiceDates: [],
             skill: 0,
             card: 0,
             equip: 0,
+            location: 0,
             sum: '',
             paid: '',
             approved: '',
@@ -315,6 +319,23 @@ export default {
         },
         loadLocations(event) {
             this.service_id = event.target.value;
+            let url = '/api/kid_services/add/kid_service_dates/' + this.kid_id + '/' + this.service_id;
+            this.$axios.get(url)
+                .then(response => {
+                    this.skills = response.data.skills;
+                    let dates = [];
+                    response.data.forEach((element) => {
+                        dates.push(new Date(element) + ',');
+                    });
+                    this.kidServiceDates = dates;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            this.disabledDates = computed(() => {
+                return this.kidServiceDates;
+            });
+
             this.$axios.get('/api/services/get_locations/' + this.service_id)
                 .then(response => {
                     this.locations = response.data.locations;
