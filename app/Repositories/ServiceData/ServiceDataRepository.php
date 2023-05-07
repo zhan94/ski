@@ -68,10 +68,7 @@ class ServiceDataRepository implements ServiceDataRepositoryInterface
                 $serviceDataId = (int)$serviceDataDates['service_data_id'];
                 $serviceDateDate = $serviceDataDates['service_data_date'];
                 if ($serviceDateDate === $date) {
-                    $oldDates[] = [
-                        'services_data_id' => $serviceDataId,
-                        'service_data_date' => $serviceDateDate
-                    ];
+                    $oldDates[$serviceDataId][] = $serviceDateDate;
                 }
             } else {
                 $newDates[] = $date;
@@ -81,20 +78,21 @@ class ServiceDataRepository implements ServiceDataRepositoryInterface
             $serviceDataId = $this->storeNewDates($serviceId, $newDates);
             $inputData['services_data_id'] = $serviceDataId;
             $kidService = $this->kidService->store($inputData);
-            $this->kidServiceDate->store($newDates, $kidService->id);
+            $this->kidServiceDate->storeNewDates($newDates, $kidService->id);
         }
         if (!empty($oldDates)) {
             $oldDatesDates = [];
-            $serviceDataIds = [];
-            foreach ($oldDates as $date) {
-                $oldDatesDates[] = $date['service_data_date'];
-                $serviceDataIds[] = $date['services_data_id'];
-            }
-            $serviceDataIds = array_unique($serviceDataIds);
-            foreach ($serviceDataIds as $serviceDataId) {
-                $inputData['services_data_id'] = $serviceDataId;
-                $kidService = $this->kidService->store($inputData);
-                $this->kidServiceDate->store($oldDatesDates, $kidService->id);
+            foreach ($oldDates as $serviceDataId => $dates) {
+                foreach ($dates as $date) {
+                    $serviceId = (int)$this->kidService->getIdByKidAndDate($inputData['kid_id'], $serviceDataId);
+                    if ($serviceId === 0) {
+                        $inputData['services_data_id'] = $serviceDataId;
+                        $kidService = $this->kidService->store($inputData);
+                        $this->kidServiceDate->store($date, $kidService->id);
+                    } else {
+                        $this->kidServiceDate->store($date, $serviceId);
+                    }
+                }
             }
         }
     }

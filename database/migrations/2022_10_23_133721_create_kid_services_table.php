@@ -52,7 +52,8 @@ return new class extends Migration
                 ->nullable();
             $table->integer('approve')
                 ->default(0);
-            $table->string("lunch");
+            $table->string("lunch")
+                ->nullable();
             $table->timestamps();
         });
     }

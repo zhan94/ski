@@ -21,7 +21,7 @@ class KidServiceRepository implements KidServiceRepositoryInterface
 
     public function store($inputData)
     {
-         return $this->kidService->create($inputData);
+        return $this->kidService->create($inputData);
     }
 
     public function get($kidService): array
@@ -69,5 +69,19 @@ class KidServiceRepository implements KidServiceRepositoryInterface
             }
         }
         return $dates;
+    }
+
+    public function getIdByKidAndDate($kidId, $serviceDataId)
+    {
+        $serviceId = 0;
+        $sql = $this->kidService->select('service_id')
+            ->where('kid_id', '=', $kidId)
+            ->where('services_data_id', '=', $serviceDataId)
+            ->first();
+
+        if ($sql) {
+            $serviceId = $sql->service_id;
+        }
+        return $serviceId;
     }
 }

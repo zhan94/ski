@@ -11,8 +11,8 @@ class KidServiceDateRepository implements KidServiceDateRepositoryInterface
     private KidServiceDate $kidServiceDate;
 
     function __construct(
-        KidService                $kidService,
-        KidServiceDate            $kidServiceDate
+        KidService     $kidService,
+        KidServiceDate $kidServiceDate
     )
     {
         $this->kidService = $kidService;
@@ -24,14 +24,18 @@ class KidServiceDateRepository implements KidServiceDateRepositoryInterface
         return $this->kidService->all()->toArray();
     }
 
-    public function store($dates, $serviceId): void
+    public function store($date, $serviceId): void
     {
-        $data = [];
+        $this->kidServiceDate->create([
+            'kid_service_id' => $serviceId,
+            'kid_service_date' => $date
+        ]);
+    }
+
+    public function storeNewDates($dates, $serviceId): void
+    {
         foreach ($dates as $date) {
-            $this->kidServiceDate->create([
-                'kid_service_id' => $serviceId,
-                'kid_service_date' => $date
-            ]);
+            $this->store($date, $serviceId);
         }
     }
 

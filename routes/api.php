@@ -10,7 +10,6 @@ use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\ServicesDataController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\NavbarController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
