@@ -19,20 +19,20 @@ class LocationController extends Controller
 
     public function index(): array
     {
-        return $this->locationRepository->all();
+        return $this->locationRepository->allLocations();
     }
 
     public function store(StoreLocationRequest $request): JsonResponse
     {
         $inputData = $request->all();
-        $this->locationRepository->store($inputData);
+        $this->locationRepository->storeLocation($inputData);
 
         return response()->json(['success' => 'Успешно дбавяне на местоположение']);
     }
 
     public function show(Location $location): JsonResponse
     {
-        $location = $this->locationRepository->get($location);
+        $location = $this->locationRepository->getLocation($location);
 
         return response()->json($location);
     }
@@ -40,14 +40,14 @@ class LocationController extends Controller
     public function update(UpdateLocationRequest $request, Location $location): JsonResponse
     {
         $inputData = $request->all();
-        $this->locationRepository->update($inputData, $location);
+        $this->locationRepository->updateLocation($inputData, $location);
 
         return response()->json(['success'=> 'Успешна редакция на местоположение']);
     }
 
     public function destroy(Location $location): JsonResponse
     {
-        $this->locationRepository->delete($location);
+        $this->locationRepository->deleteLocation($location);
 
         return response()->json(['success' => 'Успешно изтриване на местоположение']);
     }

@@ -4,9 +4,9 @@ namespace App\Repositories\Location;
 
 Interface LocationRepositoryInterface
 {
-    public function all();
-    public function store($inputData);
-    public function get($location);
-    public function update($inputData, $location);
-    public function delete($location);
+    public function allLocations();
+    public function storeLocation($inputData);
+    public function getLocation($location);
+    public function updateLocation($inputData, $location);
+    public function deleteLocation($location);
 }

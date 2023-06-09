@@ -6,8 +6,8 @@ Interface EquipRepositoryInterface
 {
     public function allEquips();
     public function storeEquip($data);
-    public function findEquip($equip);
+    public function getEquip($equip);
     public function updateEquip($input, $equip);
-    public function destroyEquip($equip);
+    public function deleteEquip($equip);
     public function updateEquipPrices($input, $equip_id);
 }

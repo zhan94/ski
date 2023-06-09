@@ -28,12 +28,12 @@ class ServiceDataRepository implements ServiceDataRepositoryInterface
         $this->kidServiceDate = $kidServiceDate;
     }
 
-    public function all(): array
+    public function allData(): array
     {
         return $this->serviceData->with(['kids'])->get()->toArray();
     }
 
-    public function store($serviceId, $max): ServicesData
+    public function storeData($serviceId, $max): ServicesData
     {
         return $this->serviceData
             ->create(
@@ -44,7 +44,7 @@ class ServiceDataRepository implements ServiceDataRepositoryInterface
             );
     }
 
-    public function get($serviceData): ServicesData
+    public function getData($serviceData): ServicesData
     {
         return $serviceData->load('service', 'kids.location', 'kids.kidName', 'kids.service_dates');
     }
@@ -81,7 +81,6 @@ class ServiceDataRepository implements ServiceDataRepositoryInterface
             $this->kidServiceDate->storeNewDates($newDates, $kidService->id);
         }
         if (!empty($oldDates)) {
-            $oldDatesDates = [];
             foreach ($oldDates as $serviceDataId => $dates) {
                 foreach ($dates as $date) {
                     $serviceId = (int)$this->kidService->getIdByKidAndDate($inputData['kid_id'], $serviceDataId);

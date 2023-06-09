@@ -20,13 +20,13 @@ class ServiceController extends Controller
 
     public function index(): array
     {
-        return $this->serviceRepository->all();
+        return $this->serviceRepository->allServices();
     }
 
     public function store(ServiceRequest $request): JsonResponse
     {
         $inputData = $request->all();
-        $this->serviceRepository->store($inputData);
+        $this->serviceRepository->storeService($inputData);
 
         return response()->json(['success' => 'Успешно дбавяне на услуга']);
     }
@@ -34,14 +34,14 @@ class ServiceController extends Controller
     public function update(ServiceRequest $request, Service $service): JsonResponse
     {
         $inputData = $request->all();
-        $this->serviceRepository->update($inputData, $service);
+        $this->serviceRepository->updateService($inputData, $service);
 
         return response()->json(['success' => 'Успешна редакция на услуга']);
     }
 
     public function destroy(Service $service): JsonResponse
     {
-        $this->serviceRepository->delete($service);
+        $this->serviceRepository->deleteService($service);
 
         return response()->json(['success' => 'Успешно изтриване на услуга']);
     }

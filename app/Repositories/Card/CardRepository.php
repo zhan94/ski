@@ -4,28 +4,39 @@ namespace App\Repositories\Card;
 
 use App\Models\Card;
 use App\Models\CardPrice;
-use Illuminate\Http\JsonResponse;
 
 class CardRepository implements CardRepositoryInterface
 {
-    public function all(): array
+    private Card $card;
+    private CardPrice $cardPrice;
+
+    public function __construct(
+        Card $card,
+        CardPrice $cardPrice
+    )
     {
-        return Card::with('prices', 'service')->get()->toArray();
+        $this->card = $card;
+        $this->cardPrice = $cardPrice;
     }
 
-    public function store($inputData): void
+    public function allCards(): array
     {
-        $card = Card::create($inputData);
+        return $this->card->with('prices', 'service')->get()->toArray();
+    }
+
+    public function storeCard($inputData): void
+    {
+        $card = $this->card->create($inputData);
         $card_id = $card->id;
         $this->updateCardPrices($inputData, $card_id);
     }
 
-    public function get($card)
+    public function getCard($card)
     {
         return $card->load('prices', 'service');
     }
 
-    public function update($inputData, $card): void
+    public function updateCard($inputData, $card): void
     {
         $card_id = $card->id;
         $card->update($inputData);
@@ -33,7 +44,7 @@ class CardRepository implements CardRepositoryInterface
         $this->updateCardPrices($inputData, $card_id);
     }
 
-    public function delete($card): void
+    public function deleteCard($card): void
     {
         $card->prices()->delete();
         $card->delete();
@@ -52,6 +63,6 @@ class CardRepository implements CardRepositoryInterface
             ];
         }
 
-        CardPrice::insert($data);
+        $this->cardPrice->insert($data);
     }
 }

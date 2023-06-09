@@ -8,24 +8,24 @@ use App\Models\Skill;
 class ServiceRepository implements ServiceRepositoryInterface
 {
 
-    public function all(): array
+    public function allServices(): array
     {
         return Service::with(['data.kids_count','data','data.data_dates'])
             ->get()
             ->toArray();
     }
 
-    public function store($inputData): void
+    public function storeService($inputData): void
     {
         Service::create($inputData);
     }
 
-    public function update($inputData, $service): void
+    public function updateService($inputData, $service): void
     {
         $service->update($inputData);
     }
 
-    public function delete($service): void
+    public function deleteService($service): void
     {
         $service->delete();
     }

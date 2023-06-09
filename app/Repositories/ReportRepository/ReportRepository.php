@@ -2,11 +2,18 @@
 
 namespace App\Repositories\ReportRepository;
 
+use App\Models\KidService;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 
 class ReportRepository implements ReportRepositoryInterface
 {
+    private KidService $kidService;
+
+    function __construct(KidService $kidService)
+    {
+        $this->kidService = $kidService;
+    }
     public function get($service, $dateFrom, $dateTo): array
     {
         if ($dateFrom === 'undefined' || $dateTo === 'undefined') {

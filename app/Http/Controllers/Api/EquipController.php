@@ -21,28 +21,28 @@ class EquipController extends Controller
         return $this->equipRepository->allEquips();
     }
 
-    public function store(Request $request): JsonResponse
+    public function storeEquip(Request $request): JsonResponse
     {
         $this->equipRepository->store($request->all());
 
         return response()->json(['success' => 'Успешно добавяне на екипировка']);
     }
 
-    public function show(Equip $equip): JsonResponse
+    public function showEquip(Equip $equip): JsonResponse
     {
         $equip = $equip->load('prices', 'service');
         return response()->json($equip);
     }
-    public function update(Request $request, Equip $equip): JsonResponse
+    public function updateEquip(Request $request, Equip $equip): JsonResponse
     {
-        $this->equipRepository->updateEquip($request->all(), $equip);
+        $this->equipRepository->update($request->all(), $equip);
 
         return response()->json(['success'=> 'Успешна редакция на екипировка']);
     }
 
-    public function destroy(Equip $equip): JsonResponse
+    public function destroyEquip(Equip $equip): JsonResponse
     {
-        $this->equipRepository->destroyEquip($equip);
+        $this->equipRepository->delete($equip);
 
         return response()->json(['success' => 'Успешно изтриване на екипировка']);
     }

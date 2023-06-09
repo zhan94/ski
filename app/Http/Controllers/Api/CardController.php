@@ -18,32 +18,32 @@ class CardController extends Controller
     }
     public function index(): array
     {
-        return $this->cardRepository->all();
+        return $this->cardRepository->allCards();
     }
 
     public function store(Request $request): JsonResponse
     {
-        $this->cardRepository->store($request->all());
+        $this->cardRepository->storeCard($request->all());
 
         return response()->json(['success' => 'Успешно добавяне на карта']);
     }
 
     public function show(Card $card): JsonResponse
     {
-        $card = $this->cardRepository->get($card);
+        $card = $this->cardRepository->getCard($card);
 
         return response()->json($card);
     }
     public function update(Request $request, Card $card): JsonResponse
     {
-        $this->cardRepository->update($request->all(), $card);
+        $this->cardRepository->updateCard($request->all(), $card);
 
         return response()->json(['success'=> 'Успешна редакция на карта']);
     }
 
     public function destroy(Card $card): JsonResponse
     {
-        $this->cardRepository->delete($card);
+        $this->cardRepository->deleteCard($card);
 
         return response()->json(['success' => 'Успешно изтриване на карта']);
     }

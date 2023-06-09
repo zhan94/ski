@@ -25,12 +25,12 @@ class ServicesDataController extends Controller
 
     public function index(): array
     {
-        return $this->serviceRepository->allServiceData();
+        return $this->serviceRepository->allData();
     }
 
     public function show(ServicesData $data): JsonResponse
     {
-        $servicesData = $this->serviceRepository->get($data);
+        $servicesData = $this->serviceRepository->getData($data);
         return response()->json($servicesData);
     }
 
@@ -41,7 +41,7 @@ class ServicesDataController extends Controller
         $max = $inputData['max'];
         $dates = $inputData['dates'];
 
-        $servicesData = $this->serviceRepository->store($serviceId, $max);
+        $servicesData = $this->serviceRepository->storeData($serviceId, $max);
         $this->serviceDatesRepository->storeServiceDataDates($servicesData->id, $dates);
 
         return response()->json(['success' => 'Успешно дбавяне на услуга']);

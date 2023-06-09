@@ -14,27 +14,27 @@ class KidServiceRepository implements KidServiceRepositoryInterface
         $this->kidService = $kidService;
     }
 
-    public function all(): array
+    public function allKidServices(): array
     {
-        return $this->kidService->all()->toArray();
+        return $this->kidService->allKidServices()->toArray();
     }
 
-    public function store($inputData)
+    public function storeKidService($inputData)
     {
-        return $this->kidService->create($inputData);
+        return $this->kidService->createKidService($inputData);
     }
 
-    public function get($kidService): array
+    public function getKidService($kidService): array
     {
         return $kidService->load();
     }
 
-    public function update($inputData, $kidService): void
+    public function updateKidService($inputData, $kidService): void
     {
-        $kidService->update($inputData);
+        $kidService->updateKidService($inputData);
     }
 
-    public function delete($kidService): void
+    public function deleteKidService($kidService): void
     {
         $kidService->delete();
     }

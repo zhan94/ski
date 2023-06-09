@@ -4,26 +4,36 @@ namespace App\Repositories\Equip;
 
 use App\Models\Equip;
 use App\Models\EquipPrice;
-use Illuminate\Http\JsonResponse;
 
 /**
  * Class EquipRepository.
  */
 class EquipRepository implements EquipRepositoryInterface
 {
+    private Equip $equip;
+    private EquipPrice $equipPrice;
+
+    public function __construct(
+        Equip $equip,
+        EquipPrice $equipPrice,
+    ) {
+        $this->equip = $equip;
+        $this->equipPrice = $equipPrice;
+    }
+
     public function allEquips(): array
     {
-        return Equip::with('prices', 'service')->get()->toArray();
+        return $this->equip->with('prices', 'service')->get()->toArray();
     }
 
-    public function storeEquip($input): void
+    public function storeEquip($data): void
     {
-        $equip = Equip::create($input);
+        $equip = $this->equip->create($data);
         $equip_id = $equip->id;
-        $this->updateEquipPrices($input, $equip_id);
+        $this->updateEquipPrices($data, $equip_id);
     }
 
-    public function findEquip($equip)
+    public function getEquip($equip)
     {
         return $equip->load('prices', 'service');
     }
@@ -36,7 +46,7 @@ class EquipRepository implements EquipRepositoryInterface
         $this->updateEquipPrices($input, $equip_id);
     }
 
-    public function destroyEquip($equip): void
+    public function deleteEquip($equip): void
     {
         $equip->prices()->delete();
         $equip->delete();
@@ -54,7 +64,6 @@ class EquipRepository implements EquipRepositoryInterface
                 'price' => $item->prices
             ];
         }
-
-        EquipPrice::insert($data);
+        $this->equipPrice->insert($data);
     }
 }

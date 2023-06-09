@@ -5,17 +5,17 @@ namespace App\Repositories\Kid;
 interface KidRepositoryInterface
 {
 
-    public function all();
+    public function allKids();
 
-    public function create();
+    public function createKid();
 
-    public function store($inputData);
+    public function storeKid($inputData);
 
-    public function get($kid);
+    public function getKid($kid);
 
-    public function update($inputData, $kid);
+    public function updateKid($inputData, $kid);
 
-    public function delete($kid);
+    public function deleteKid($kid);
 
     public function search($kid, $serviceType);
 

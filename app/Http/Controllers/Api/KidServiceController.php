@@ -32,7 +32,7 @@ class KidServiceController extends Controller
 
     public function index(): array
     {
-        return $this->kidServiceRepository->all();
+        return $this->kidServiceRepository->allKidServices();
     }
 
     public function store(Request $request): JsonResponse
@@ -45,7 +45,7 @@ class KidServiceController extends Controller
 
     public function show(KidService $kid): JsonResponse
     {
-        $kid = $this->kidServiceRepository->get($kid);
+        $kid = $this->kidServiceRepository->getKidService($kid);
 
         return response()->json($kid);
     }
@@ -53,14 +53,14 @@ class KidServiceController extends Controller
     public function update(KidRequest $request, KidService $kid): JsonResponse
     {
         $inputData = $request->all();
-        $this->kidServiceRepository->update($inputData, $kid);
+        $this->kidServiceRepository->updateKidService($inputData, $kid);
 
         return response()->json(['success' => 'Успешна редакция на дете']);
     }
 
-    public function destroy(KidService $kid): JsonResponse
+    public function destroy(KidService $kidService): JsonResponse
     {
-        $this->kidServiceRepository->delete($kid);
+        $this->kidServiceRepository->deleteKidService($kidService);
 
         return response()->json(['success' => 'Успешно изтриване на дете']);
     }

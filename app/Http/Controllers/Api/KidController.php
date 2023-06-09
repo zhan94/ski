@@ -23,12 +23,12 @@ class KidController extends Controller
 
     public function index(): array
     {
-        return $this->kidRepository->all();
+        return $this->kidRepository->allKids();
     }
 
     public function create(): JsonResponse
     {
-        $data = $this->kidRepository->create();
+        $data = $this->kidRepository->createKid();
 
         return response()->json($data);
     }
@@ -43,7 +43,7 @@ class KidController extends Controller
 
     public function show(Kid $kid): JsonResponse
     {
-        $kid = $this->kidRepository->get($kid);
+        $kid = $this->kidRepository->getKid($kid);
 
         return response()->json($kid);
     }

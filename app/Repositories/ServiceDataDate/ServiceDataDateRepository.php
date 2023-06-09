@@ -6,6 +6,8 @@ use App\Models\ServiceDataDate;
 
 class ServiceDataDateRepository implements ServiceDataDateRepositoryInterface
 {
+    private ServiceDataDate $serviceDataDate;
+
     function __construct(
         ServiceDataDate $serviceDataDate,
     )

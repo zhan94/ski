@@ -4,10 +4,10 @@ namespace App\Repositories\KidService;
 
 interface KidServiceRepositoryInterface
 {
-    public function all();
-    public function store($inputData);
-    public function get($kidService);
-    public function update($inputData, $kidService);
-    public function delete($kidService);
+    public function allKidServices();
+    public function storeKidService($inputData);
+    public function getKidService($kidService);
+    public function updateKidService($inputData, $kidService);
+    public function deleteKidService($kidService);
     public function getByKidAndService($kid, $service): array|null;
 }

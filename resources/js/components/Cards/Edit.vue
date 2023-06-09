@@ -145,7 +145,7 @@ export default {
                     if (confirmed) {
                         this.$axios.get('/sanctum/csrf-cookie').then(response => {
                             let existingObj = this;
-                            this.$axios.delete(`/api/cards/${id}`)
+                            this.$axios.delete(`/api/cards/${this.id}`)
                                 .then(response => {
                                     let i = this.cards.map(item => item.id).indexOf(id); // find index of your object
                                     this.cards.splice(i, 1);

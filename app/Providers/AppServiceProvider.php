@@ -38,7 +38,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ServiceDataRepositoryInterface::class, ServiceDataRepository::class);
         $this->app->bind(ServiceDataDateRepositoryInterface::class, ServiceDataDateRepository::class);
         $this->app->bind(ReportRepositoryInterface::class, ReportRepository::class);
-
     }
 
     public function boot(): void
